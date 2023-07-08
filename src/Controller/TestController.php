@@ -12,8 +12,8 @@ class TestController extends AbstractController
     public function index(): JsonResponse
     {
         return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/TestController.php',
+            'message' => 'Testing something',
+            'path' => 'bla bla',
         ]);
     }
 }
