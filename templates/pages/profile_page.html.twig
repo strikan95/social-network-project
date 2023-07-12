@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block profile %}
+<div>
+    <span class="title--welcome"> Welcome {{ username }}! </span>
+    <div class="section__post">
+        <form class="post__form" action="" method="POST">
+            <span class="post__form--label">Post to the feed</span>
+            <textarea placeholder="Share your thoughts!" rows="4" cols="50"></textarea>
+            <div class="post__form--privacy">
+                <input type="radio" id="choiceFollowers" name="contact" value="followers"/>
+                <label for="choiceFollowers">Followers</label>
+                <input type="radio" id="choicePublic" name="contact" value="public"/>
+                <label for="choicePublic">Public</label>
+            </div>
+            <input type="button" class="post__form--button" value="Post">
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+

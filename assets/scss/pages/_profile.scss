@@ -1,0 +1,18 @@
+.section__post{
+    margin-top: 10rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    
+    form{
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        row-gap: 1rem;
+
+        .post__form--label, .post__form--privacy, .post__form--button{
+            align-self: start;
+        }
+    }
+
+}

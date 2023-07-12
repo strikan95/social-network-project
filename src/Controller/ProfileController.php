@@ -6,12 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ExampleController extends AbstractController
+class ProfileController extends AbstractController
 {
-    #[Route('/example', name: 'example')]
+    #[Route('/profile', name: 'profile')]
     public function __invoke(): Response
     {
-
-        return $this->render('test.html.twig');
+        return $this->render('pages/profile_page.html.twig', [
+            'username' => 'Slavko',
+        ]);
     }
 }

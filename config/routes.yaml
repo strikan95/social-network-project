@@ -11,3 +11,12 @@ example:
 test:
     path: /test
     controller: App\Controller\TestController
+
+profile:
+    path: /profile
+    controller: App\Controller\ProfileController
+
+app_post:
+    path: /post
+    controller: App\Controller\PostController
+
