@@ -12,10 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
-    #[Route('/profile', name: 'profile')]
+    #[Route('/post', name: 'app_post')]
     public function __invoke(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $post = new Post(); 
+        $post = new Post();
 
         $form = $this->createForm(PostType::class, $post);
 
