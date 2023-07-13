@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FeedController!{% endblock %}
+
+{% block body %}
+
+<div class="page--feed">
+    <div class="section__profile">
+        <div class="profile__tab">
+            <img src="{{ asset('/images/zuck_image.png') }}" alt="">
+            <ul>
+                <li>Example Name</li>
+                <li>@Username</li>
+            </ul>
+        </div>
+        <div class="profile__actions">
+            <ul>
+                <li>
+                    <a href=""><img src="{{ asset('/images/gear_icon.png') }}" alt="">Profile</a>
+                </li>
+                <li><a href="">Messages</a></li>
+                <li><a href="">Find people</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="section__feed">
+        <ul>
+            {% for post in posts %}
+            <li id="{{post.id}}" class="">
+                {{ post.user }}
+                {{ post.content }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section__users">
+        <ul>
+            {% for post in posts %}
+            <li id="{{post.id}}" class="">
+                {{ post.user }}
+                {{ post.content }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}
