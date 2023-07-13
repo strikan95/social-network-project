@@ -1,0 +1,15 @@
+
+{% block post_card %}
+<div class="post__card">
+    <div class="card__row--one">
+        <img src="{{ asset('/images/zuck_image.png') }}" alt="">
+        <ul>
+            <li><span>{{ post.user }}</span></li>
+            <li><span>@Username</span></li>
+        </ul>
+    </div>
+    <div class="card__row--two">
+        <span>{{ post.content }}</span>
+    </div>
+</div>
+{% endblock %}

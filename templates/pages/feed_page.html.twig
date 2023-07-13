@@ -16,18 +16,16 @@
         <div class="profile__actions">
             {{ block("sidebar_left", "elements/sidebar_left.html.twig") }}
         </div>
+        <div class="profile__tab--time">
+            <span id='ct' ></span>  
+        </div>
 
     </div>
 
     <div class="section__feed">
-        <ul>
-            {% for post in posts %}
-            <li id="{{post.id}}" class="">
-                {{ post.user }}
-                {{ post.content }}
-            </li>
-            {% endfor %}
-        </ul>
+        {% for post in posts %}
+            {{ block("post_card", "elements/post_window.html.twig") }}
+        {% endfor %}
     </div>
 
     <div class="section__users">
@@ -42,5 +40,19 @@
     </div>
 </div>
 
+<script type="text/javascript"> 
+function display_c(){
+var refresh=1000; // Refresh rate in milli seconds
+mytime=setTimeout('display_ct()',refresh)
+}
 
+function display_ct() {
+var x = new Date()
+var x1=x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
+x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
+document.getElementById('ct').innerHTML = x1;
+display_c();
+ }
+</script>
 {% endblock %}
+

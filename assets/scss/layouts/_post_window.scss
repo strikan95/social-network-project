@@ -1,0 +1,35 @@
+.post__card{
+    display: flex;
+    flex-flow: column wrap;
+    width: 60%;
+    height: 7rem;
+    max-height: 12rem;
+    padding-left: 2rem;
+    box-shadow: 1px 4px 9px 0px #e7e7e7;
+    border-radius: 2rem;
+    .card__row--one{
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+
+        img{
+            height: 2rem;
+            border-radius: 2.25rem;
+            box-shadow: 1px 4px 9px 0px #e7e7e7;        
+        }
+        
+        ul{
+
+            li:first-child{
+                font-weight: 600;
+            }
+        }
+    }
+
+    .card__row--two{
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: start;
+        width: 100%;
+    }
+}

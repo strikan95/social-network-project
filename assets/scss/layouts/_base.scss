@@ -5,6 +5,18 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+li{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    opacity: 0.3;
+}
+
 @keyframes Animation { 
     0%{background-position:10% 0%}
     50%{background-position:91% 100%}
