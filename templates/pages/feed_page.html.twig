@@ -14,13 +14,7 @@
             </ul>
         </div>
         <div class="profile__actions">
-            <ul>
-                <li>
-                    <a href=""><img src="{{ asset('/images/gear_icon.png') }}" alt="">Profile</a>
-                </li>
-                <li><a href="">Messages</a></li>
-                <li><a href="">Find people</a></li>
-            </ul>
+            {{ block("sidebar_left", "elements/sidebar_left.html.twig") }}
         </div>
 
     </div>
