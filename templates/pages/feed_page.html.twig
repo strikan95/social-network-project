@@ -41,18 +41,47 @@
 </div>
 
 <script type="text/javascript"> 
+
 function display_c(){
-var refresh=1000; // Refresh rate in milli seconds
-mytime=setTimeout('display_ct()',refresh)
+    var refresh=1000; // Refresh rate in milli seconds
+    mytime=setTimeout('display_ct()',refresh)
 }
 
 function display_ct() {
-var x = new Date()
-var x1=x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
-x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
-document.getElementById('ct').innerHTML = x1;
-display_c();
- }
+    var x = new Date()
+    var x1 = x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
+    x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
+    document.getElementById('ct').innerHTML = x1;
+    display_c();
+}
+
+
+function createdTime(){
+    var createdAtElements = document.querySelectorAll("#published");
+    for(let i=0; i<createdAtElements.length; i++){
+        var time = {{time}}-createdAtElements[i].innerHTML
+        if(time<60){
+            createdAtElements[i].innerHTML = "Posted " +time+ " seconds ago";
+        } else{
+            time=time/60;
+            time=time.toFixed(0);
+            if(time>=60){
+                time=(time/60).toFixed(0);
+                if(time>=24){
+                    time=(time/24).toFixed(0);
+                    createdAtElements[i].innerHTML= "Posted "+time+" days ago"
+                } else {
+                    createdAtElements[i].innerHTML= "Posted "+time+" hours ago"
+                }
+            } else{
+                createdAtElements[i].innerHTML = "Posted " +time+ " minutes ago";
+            }
+        }
+    }
+}
+
+createdTime();
+
 </script>
 {% endblock %}
 

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -21,6 +23,9 @@ class Post
 
     #[ORM\Column(length: 2000)]
     private ?string $content = null;
+
+    #[ORM\Column(length: 2000)]
+    private ?string $createdAt = null;
 
     public function getId(): ?int
     {
@@ -61,5 +66,23 @@ class Post
         $this->content = $content;
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?string
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(string $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function __construct()
+    {
+        // Set default values in the constructor
+        $this->createdAt = time();
     }
 }

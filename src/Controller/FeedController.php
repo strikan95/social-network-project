@@ -17,7 +17,8 @@ class FeedController extends AbstractController
         $posts = $entityManager->getRepository(Post::class)->findBy(['access' => 'Public']);
 
         return $this->render('pages/feed_page.html.twig', [
-            'posts' => $posts
+            'posts' => $posts,
+            'time' => time()
         ]);
     }
 }
