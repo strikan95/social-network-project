@@ -23,6 +23,9 @@
     </div>
 
     <div class="section__feed">
+        <div class="container__form">
+            {{ form(form) }}
+        </div>
         {% for post in posts %}
             {{ block("post_card", "elements/post_window.html.twig") }}
         {% endfor %}
@@ -30,12 +33,7 @@
 
     <div class="section__users">
         <ul>
-            {% for post in posts %}
-            <li id="{{post.id}}" class="">
-                {{ post.user }}
-                {{ post.content }}
-            </li>
-            {% endfor %}
+
         </ul>
     </div>
 </div>
@@ -61,7 +59,11 @@ function createdTime(){
     for(let i=0; i<createdAtElements.length; i++){
         var time = {{time}}-createdAtElements[i].innerHTML
         if(time<60){
-            createdAtElements[i].innerHTML = "Posted " +time+ " seconds ago";
+            if(time==1){
+                createdAtElements[i].innerHTML = "Posted " +time+ " second ago";
+            } else{
+                createdAtElements[i].innerHTML = "Posted " +time+ " seconds ago";
+            }
         } else{
             time=time/60;
             time=time.toFixed(0);
@@ -69,12 +71,24 @@ function createdTime(){
                 time=(time/60).toFixed(0);
                 if(time>=24){
                     time=(time/24).toFixed(0);
-                    createdAtElements[i].innerHTML= "Posted "+time+" days ago"
+                    if(time==1){
+                        createdAtElements[i].innerHTML= "Posted "+time+" day ago"
+                    } else{
+                        createdAtElements[i].innerHTML= "Posted "+time+" days ago"
+                    }
                 } else {
-                    createdAtElements[i].innerHTML= "Posted "+time+" hours ago"
+                    if(time==1){
+                        createdAtElements[i].innerHTML= "Posted "+time+" hour ago"
+                    } else{
+                        createdAtElements[i].innerHTML= "Posted "+time+" hours ago"
+                    }
                 }
             } else{
-                createdAtElements[i].innerHTML = "Posted " +time+ " minutes ago";
+                if(time==1){
+                    createdAtElements[i].innerHTML = "Posted " +time+ " minute ago";
+                } else{
+                    createdAtElements[i].innerHTML = "Posted " +time+ " minutes ago";
+                }
             }
         }
     }

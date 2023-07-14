@@ -2,11 +2,13 @@
 {% block post_card %}
 <div class="post__card">
     <div class="card__row--one">
-        <img src="{{ asset('/images/zuck_image.png') }}" alt="">
-        <ul>
-            <li><span>{{ post.user }}</span></li>
-            <li><span>@Username</span></li>
-        </ul>
+        <div class="info--profile">
+            <img src="{{ asset('/images/zuck_image.png') }}" alt="">
+            <ul>
+                <li><span>{{ post.user }}</span></li>
+                <li><span>@Username</span></li>
+            </ul>
+        </div>
         <span id="published">{{post.createdAt}}</span>
     </div>
     <div class="card__row--two">

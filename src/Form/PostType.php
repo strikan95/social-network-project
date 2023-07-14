@@ -16,16 +16,19 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user', TextType::class)
+            ->add('content',TextareaType::class, [
+                'attr' => ['placeholder' => 'Let the whole world know your brilliant thoughts 🤡'],
+                'label' => false
+            ])
             ->add('access', ChoiceType::class, [
                 'choices' => [
                     'Public' => 'Public',
                     'Followers' => 'Followers',
                     'Both' => 'Both'
                 ],
+                'label' => "Select audience:"
             ])
-            ->add('content', TextareaType::class)
-            ->add('save', SubmitType::class)
+            ->add('submit', SubmitType::class)
         ;
     }
 
