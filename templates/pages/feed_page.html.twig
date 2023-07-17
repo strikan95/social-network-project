@@ -3,6 +3,7 @@
 {% block title %}Hello FeedController!{% endblock %}
 
 {% block body %}
+{% set count = 0 %}
 
 <div class="page--feed">
     <div class="section__profile">
@@ -26,9 +27,17 @@
         <div class="container__form">
             {{ form(form) }}
         </div>
+        <div class="container__select--feed">
+             <button class="select--personal">Your feed</button>
+             <span>|</span>
+             <button href="" class="select--public">Public</button>
+        </div>
+
         {% for post in posts %}
             {{ block("post_card", "elements/post_window.html.twig") }}
         {% endfor %}
+
+
     </div>
 
     <div class="section__users">
@@ -39,6 +48,48 @@
 </div>
 
 <script type="text/javascript"> 
+
+var select__public = document.querySelector(".select--public");
+var select__personal = document.querySelector(".select--personal");
+var post_card = document.querySelectorAll(".post__card")
+for(var i = 0; i<post_card.length; i++){
+
+    if(post_card[i].dataset.access=="Public" || post_card[i].dataset.access=="public"){
+        post_card[i].style = "display: none;";
+    }
+}
+
+select__public.style = "opacity:0.5";
+
+select__personal.addEventListener("click", () => {
+    select__personal.style = "opacity:1";
+    select__public.style = "opacity:0.5";
+        for(var i = 0; i<post_card.length; i++){
+    if(post_card[i].dataset.access=="Public" || post_card[i].dataset.access=="public"){
+        post_card[i].style = "display: none;";
+    }
+    else{
+        post_card[i].style = "display: flex";
+    }
+}
+});
+
+select__public.addEventListener("click", () => {
+    select__public.style = "opacity:1";
+    select__personal.style = "opacity:0.5";
+    for(var i = 0; i<post_card.length; i++){
+    if(post_card[i].dataset.access=="Public" || post_card[i].dataset.access=="public"){
+        post_card[i].style = "display: flex;";
+    }
+    else{
+        post_card[i].style = "display: none";
+    }
+}
+});
+
+
+
+
 
 function display_c(){
     var refresh=1000; // Refresh rate in milli seconds

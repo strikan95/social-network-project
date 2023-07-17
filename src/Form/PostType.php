@@ -23,8 +23,7 @@ class PostType extends AbstractType
             ->add('access', ChoiceType::class, [
                 'choices' => [
                     'Public' => 'Public',
-                    'Followers' => 'Followers',
-                    'Both' => 'Both'
+                    'Followers' => 'Followers'
                 ],
                 'label' => "Select audience:"
             ])

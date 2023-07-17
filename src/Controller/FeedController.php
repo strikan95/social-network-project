@@ -15,11 +15,12 @@ class FeedController extends AbstractController
     #[Route('/feed', name: 'app_feed')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $publicPosts = $entityManager->getRepository(Post::class)->findBy(['access' => 'Public'], ['id' => 'DESC']);
-        
+        $allPosts = $entityManager->getRepository(Post::class)->findBy([], ['id' => 'DESC']);
+        //$users = $entityManager->getRepository(User::class)->findAll();
+    
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
-
+    
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid() ){
             $post = $form->getData();
@@ -29,7 +30,7 @@ class FeedController extends AbstractController
         }
 
         return $this->render('pages/feed_page.html.twig', [
-            'posts' => $publicPosts,
+            'posts' => $allPosts,
             'form' => $form,
             'time' => time()
         ]);
