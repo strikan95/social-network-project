@@ -3,8 +3,13 @@
     <div class="profile__tab">
         <img src="{{ asset('/images/zuck_image.png') }}" alt="">
         <ul>
-            <li>Example Name</li>
-            <li>@Username</li>
+            {% if firstName is defined %}
+                <li>{{firstName}} {{lastName}}</li>
+                <li>@{{ username }}</li>
+            {% else %}
+                <li>Firstname Lastname</li>
+                <li>@Username</li>
+            {% endif %}
         </ul>
     </div>
 {% endblock %}

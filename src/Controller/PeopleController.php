@@ -13,10 +13,18 @@ class PeopleController extends AbstractController
     #[Route('/people', name: 'app_people')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $allUsers = $entityManager->getRepository(User::class)->findAll(); 
+        $user = $this->getUser();
+        $userRepo = $entityManager->getRepository(User::class); 
+        $limitUsers = $userRepo->createQueryBuilder('people')
+        ->where("people.id != :user")
+        ->setParameter("user", $user)
+        ->setMaxResults(9)
+        ->getQuery()
+        ->getResult();
 
         return $this->render('pages/find_people_page.html.twig', [
-            'users' => $allUsers
+            'users' => $limitUsers,
+            'user' => $user
         ]);
     }
 }

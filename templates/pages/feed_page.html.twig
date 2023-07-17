@@ -3,16 +3,33 @@
 {% block title %}Hello FeedController!{% endblock %}
 
 {% block body %}
+
+{% set username = user.username %}
+{% set firstName = user.firstName %}
+{% set lastName = user.lastName %}
+
+{% set url1 = asset('/images/user_icon.png') %}
+{% set url2 = asset('/images/gear_icon.png') %}
+{% set url3 = asset('/images/comment_icon.png')  %}
+{% set url4 = asset('/images/team_icon.png') %}
+
+{% set path1 = "/profile" %}
+{% set path2 = "/settings" %}
+{% set path3 = "/chat"  %}
+{% set path4 = "/people" %}
+
 <div class="page--feed">
     <div class="section__profile">
-        {{ block("profile_tab", "elements/profile_tab.html.twig") }}
+        {% include 'elements/profile_tab.html.twig' with {'username': username, 'lastName' : lastName, 'firstName' : firstName} %}
         <div class="profile__actions">
-            {{ block("sidebar_left", "elements/sidebar_left.html.twig") }}
+            {% include "elements/sidebar_left.html.twig"  with {'url1': url1,
+            'url2':url2, 'url3':url3, 'url4':url4, 'text1':'Profile', 'text2':'Settings',
+            'text3':'Messages', 'text4':'Find people', 'path1':path1, 'path2':path2, 'path3':path3, 
+            'path4':path4} %}
         </div>
         <div class="profile__tab--time">
             <span id='ct' ></span>  
         </div>
-
     </div>
 
     <div class="section__feed">

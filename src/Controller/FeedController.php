@@ -17,7 +17,7 @@ class FeedController extends AbstractController
     {
         $allPosts = $entityManager->getRepository(Post::class)->findBy([], ['id' => 'DESC']);
         //$users = $entityManager->getRepository(User::class)->findAll();
-    
+        $user = $this->getUser();
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
     
@@ -32,7 +32,8 @@ class FeedController extends AbstractController
         return $this->render('pages/feed_page.html.twig', [
             'posts' => $allPosts,
             'form' => $form,
-            'time' => time()
+            'time' => time(),
+            'user' => $user
         ]);
     }
 }
