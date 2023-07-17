@@ -4,25 +4,4 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-example:
-    path: /example
-    controller: App\Controller\ExampleController
-
-test:
-    path: /test
-    controller: App\Controller\TestController
-
-profile:
-    path: /profile
-    controller: App\Controller\ProfileController
-
-app_post:
-    path: /post
-    controller: App\Controller\PostController
-
-app_home:
-    path: /
-    controller: App\Controller\HomeController
-
-
 
