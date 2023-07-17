@@ -26,7 +26,41 @@
         form{
             display: flex;
             flex-flow: column wrap;
+            align-items: center;
             row-gap: 1rem;
+            
+            div{
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                label{
+                    padding-right: 1rem;
+                }
+                input{
+                    border: none;
+                    border-bottom: 1px rgba(0, 0, 0, 0.23) solid;
+                    outline: none;
+                }
+                .checkbox--agree{
+                    width: 10rem;
+                    transform: translate(-83px, 0px);
+                }
+            }
+
+            button{
+                cursor: pointer;
+                border: none;
+                background: linear-gradient(90deg, #2e0d83, #7f6bff);
+                background-size: 200% 200%;
+                animation: Animation 3s ease infinite;
+                color: white;
+                width: 15rem;
+                height: 3rem;
+                border-radius: 2rem;
+                margin: 0;
+                font-size: 1rem;
+                transform: translate(0px, 32px);
+            }
         }
     }
 }

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Find people{% endblock %}
+
+{% block body %}
+<div class="page--people">
+    <div class="section__profile">
+        {{ block("profile_tab", "elements/profile_tab.html.twig") }}
+        <div class="profile__actions">
+            {{ block("sidebar_left", "elements/sidebar_left.html.twig") }}
+        </div>
+        <div class="profile__tab--time">
+            <span id='ct' ></span>  
+        </div>
+    </div>
+
+    <div class="section__feed">
+        <h1 class="feed__title">Find people</h1>
+        <div class="feed__profiles">
+            {% for user in users %}
+                {{ block("profile_tab", "elements/profile_tab.html.twig") }}  
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function display_c(){
+        var refresh=1000; // Refresh rate in milli seconds
+        mytime=setTimeout('display_ct()',refresh)
+    }
+
+    function display_ct() {
+        var x = new Date()
+        var x1 = x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
+        x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
+        document.getElementById('ct').innerHTML = x1;
+        display_c();
+    }
+</script>
+{% endblock %}
+

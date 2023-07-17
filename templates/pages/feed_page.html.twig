@@ -5,13 +5,7 @@
 {% block body %}
 <div class="page--feed">
     <div class="section__profile">
-        <div class="profile__tab">
-            <img src="{{ asset('/images/zuck_image.png') }}" alt="">
-            <ul>
-                <li>Example Name</li>
-                <li>@Username</li>
-            </ul>
-        </div>
+        {{ block("profile_tab", "elements/profile_tab.html.twig") }}
         <div class="profile__actions">
             {{ block("sidebar_left", "elements/sidebar_left.html.twig") }}
         </div>
