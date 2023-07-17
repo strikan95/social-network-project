@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Auth;
 
 use App\DTO\User\CreateUserRequest;
 use Symfony\Component\Form\AbstractType;

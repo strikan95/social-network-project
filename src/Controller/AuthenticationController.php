@@ -2,38 +2,45 @@
 
 namespace App\Controller;
 
-use App\Entity\Factory\UserFactory;
-use App\Form\RegistrationFormType;
-use App\Repository\Interfaces\UserRepositoryInterface;
+use App\Form\Auth\RegistrationFormType;
+use App\Security\Handlers\UserRegistrationHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthenticationController extends AbstractController
 {
-    public function __construct(
-        private readonly UserRepositoryInterface $repository
-    )
+    public function __construct()
     {
     }
 
-    #[Route('/register', name: 'social.register')]
-    public function register(Request $request): Response
+    #[Route('/register', name: 'app.register')]
+    public function register(UserRegistrationHandler $registrationHandler): Response
     {
         $form = $this->createForm(RegistrationFormType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = UserFactory::factory()
-                ->buildOrUpdate($form->getData());
-
-            $this->repository->save($user, true);
-
+        $user = $registrationHandler->handle($form);
+        if (null !== $user)
             return $this->redirectToRoute('app_feed');
-        }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('auth/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/login', name: 'app.login')]
+    public function login(AuthenticationUtils $authenticationUtils): Response
+    {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('auth/login.html.twig', [
+            'controller_name' => 'AuthenticationController',
+            'lastUsername' => $lastUsername,
+            'error'         => $error,
         ]);
     }
 }

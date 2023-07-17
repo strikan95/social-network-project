@@ -11,6 +11,10 @@
                 <li>Example Name</li>
                 <li>@Username</li>
             </ul>
+            <form action="{{ path('app.logout') }}" method="post">
+                <input type="submit" name="Log out" value="Log out" />
+            </form>
+
         </div>
         <div class="profile__actions">
             {{ block("sidebar_left", "elements/sidebar_left.html.twig") }}
