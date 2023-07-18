@@ -1,20 +1,87 @@
 {% extends "base.html.twig" %}
 
 {% block profile %}
-<div>
-    <span class="title--welcome"> Welcome {{ username }}! </span>
-    <div class="section__post">
-        <form class="post__form" action="" method="POST">
-            <span class="post__form--label">Post to the feed</span>
-            <textarea placeholder="Share your thoughts!" rows="4" cols="50"></textarea>
-            <div class="post__form--privacy">
-                <input type="radio" id="choiceFollowers" name="contact" value="followers"/>
-                <label for="choiceFollowers">Followers</label>
-                <input type="radio" id="choicePublic" name="contact" value="public"/>
-                <label for="choicePublic">Public</label>
+<div class="page--profile">
+    <div class="profile__banner">
+        {% if profile.backgroundImage is defined and profile.backgroundImage is not empty %}
+            <img src={{profile.backgroundImage}} alt="">
+        {% else %}
+            <img src="{{ asset('/images/background_image.jpg') }}" alt="">
+        {% endif %}
+    </div>
+    <div class="profile__info">
+        {% if profile.profileImage is defined and profile.profileImage is not empty %}
+            <img class="info__container--image" src={{profile.profileImage}} alt="">
+        {% else %}
+            <img class="info__container--image" src="{{ asset('/images/zuck_image.png') }}" alt="">
+        {% endif %}
+        <div class="info__navigation">
+            <a href="/settings">
+                <img src="{{ asset('/images/gear_icon.png') }}"   alt="">
+            </a>
+            <a href="/feed">
+                <img src="{{ asset('/images/feed_icon.png') }}"  alt="">
+            </a>
+            <a href="/people">
+                <img src="{{ asset('/images/team_icon.png') }}"  alt="">
+            </a>
+            <a href="/messages">
+                <img src="{{ asset('/images/comment_icon.png') }}"  alt="">
+            </a>
+        </div>
+        <h1>{{user.firstName}} {{user.lastName}}</h1>
+        <h2>@{{user.username}}</h2>
+        <div class="info__container--text">
+            <div class="text__introduction">
+                <span>Introduction</span>
+                {% if profile.briefDescription is defined %}
+                    <span class="info__description">{{profile.briefDescription}}</span>
+                {% else %}
+                    <span class="info__description">-</span>
+                {% endif %}
             </div>
-            <input type="button" class="post__form--button" value="Post">
-        </form>
+            <div class="text__description">
+                <span>Description</span>
+                {% if profile.description is defined %}
+                    <span class="info__description--brief">{{profile.description}}</span>
+                {% else %}
+                    <span class="info__description--brief">-</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="info__container">   
+                <div class="info__followers">
+                    <img src="{{ asset('/images/people_icon.png') }}" alt="">
+                    {% if profile.followers is defined %}
+                        <span>Followers 37</span>
+                    {% else %}
+                        <span>Followers 0</span>
+                    {% endif %}
+                </div>
+            <div class="info__following">
+                <img src="{{ asset('/images/heart_icon.png') }}" alt="">
+                {% if profile.followers is defined %}
+                    <span>Following 117</span>
+                {% else %}
+                    <span>Following 0</span>
+                {% endif %}
+            </div>
+
+            {% if profile.location is defined %}
+            <div class="info__location">
+                <img src="{{ asset('/images/map_icon.png') }}" alt="">
+                <span>{{ profile.locatiton }}</span>
+            </div>
+            {% endif %}
+
+            {% if profile.date is defined %}
+            <div class="info__created">
+                <img src="{{ asset('/images/calendar_icon.png') }}" alt="">
+                <span>{{ profile.date }}</span>
+            </div>
+            {% endif %}
+
+        </div>
     </div>
 </div>
 {% endblock %}

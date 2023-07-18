@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Profile::class, cascade: ['persist'])]
+    private ?Profile $profile = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -183,6 +186,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
 
         return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+       /**
+     * @ORM\PostPersist
+     */
+    public function createProfile(): void
+    {
+        if ($this->profile === null) {
+            $this->profile = new Profile();
+            $this->profile->setUser($this);
+        }
     }
 
 
