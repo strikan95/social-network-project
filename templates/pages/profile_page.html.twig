@@ -30,7 +30,14 @@
             </a>
         </div>
         <h1>{{user.firstName}} {{user.lastName}}</h1>
-        <h2>@{{user.username}}</h2>
+        {% if show is defined %}
+            <div class="info__follow">
+                <h2>@{{user.username}}</h2>
+                <a href="">Follow</a>
+            </div>
+        {% else %}
+            <h2>@{{user.username}}</h2>
+        {% endif %}
         <div class="info__container--text">
             <div class="text__introduction">
                 <span>Introduction</span>
