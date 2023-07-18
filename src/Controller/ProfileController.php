@@ -24,7 +24,7 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/{id}', name: 'app_profile_show')]
+    #[Route('/profile/show/{id}', name: 'app_profile_show')]
     public function show(EntityManagerInterface $entityManager, int $id): Response
     {
         $user = $entityManager->getRepository(User::class)->find($id);
