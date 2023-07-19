@@ -4,14 +4,14 @@
 <div class="page--profile">
     <div class="profile__banner">
         {% if profile.backgroundImage is defined and profile.backgroundImage is not empty %}
-            <img src={{profile.backgroundImage}} alt="">
+            <img src="{{ asset('/uploads/'~ profile.backgroundImage) }}" alt="">
         {% else %}
             <img src="{{ asset('/images/background_image.jpg') }}" alt="">
         {% endif %}
     </div>
     <div class="profile__info">
         {% if profile.profileImage is defined and profile.profileImage is not empty %}
-            <img class="info__container--image" src={{profile.profileImage}} alt="">
+            <img class="info__container--image" src="{{ asset('/uploads/'~ profile.profileImage) }}" alt="">
         {% else %}
             <img class="info__container--image" src="{{ asset('/images/zuck_image.png') }}" alt="">
         {% endif %}
