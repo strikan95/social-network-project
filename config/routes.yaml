@@ -6,5 +6,5 @@ controllers:
 
 app.logout:
     path: /logout
-    methods: POST
+    methods: ['POST', 'GET']
 

@@ -96,66 +96,6 @@ select__public.addEventListener("click", () => {
 }
 });
 
-
-
-
-
-function display_c(){
-    var refresh=1000; // Refresh rate in milli seconds
-    mytime=setTimeout('display_ct()',refresh)
-}
-
-function display_ct() {
-    var x = new Date()
-    var x1 = x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
-    x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
-    document.getElementById('ct').innerHTML = x1;
-    display_c();
-}
-
-
-function createdTime(){
-    var createdAtElements = document.querySelectorAll("#published");
-    for(let i=0; i<createdAtElements.length; i++){
-        var time = {{time}}-createdAtElements[i].innerHTML
-        if(time<60){
-            if(time==1){
-                createdAtElements[i].innerHTML = "Posted " +time+ " second ago";
-            } else{
-                createdAtElements[i].innerHTML = "Posted " +time+ " seconds ago";
-            }
-        } else{
-            time=time/60;
-            time=time.toFixed(0);
-            if(time>=60){
-                time=(time/60).toFixed(0);
-                if(time>=24){
-                    time=(time/24).toFixed(0);
-                    if(time==1){
-                        createdAtElements[i].innerHTML= "Posted "+time+" day ago"
-                    } else{
-                        createdAtElements[i].innerHTML= "Posted "+time+" days ago"
-                    }
-                } else {
-                    if(time==1){
-                        createdAtElements[i].innerHTML= "Posted "+time+" hour ago"
-                    } else{
-                        createdAtElements[i].innerHTML= "Posted "+time+" hours ago"
-                    }
-                }
-            } else{
-                if(time==1){
-                    createdAtElements[i].innerHTML = "Posted " +time+ " minute ago";
-                } else{
-                    createdAtElements[i].innerHTML = "Posted " +time+ " minutes ago";
-                }
-            }
-        }
-    }
-}
-
-createdTime();
-
 </script>
 {% endblock %}
 

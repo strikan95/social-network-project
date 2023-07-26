@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Form\Auth\RegistrationFormType;
+use App\Form\Auth\RegistrationForm;
 use App\Security\Handlers\UserRegistrationHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -19,10 +18,10 @@ class AuthenticationController extends AbstractController
     #[Route('/register', name: 'app.register')]
     public function register(UserRegistrationHandler $registrationHandler): Response
     {
-        $form = $this->createForm(RegistrationFormType::class);
+        $form = $this->createForm(RegistrationForm::class);
         $user = $registrationHandler->handle($form);
         if (null !== $user)
-            return $this->redirectToRoute('app_feed');
+            return $this->redirectToRoute('app.feed.show');
 
         return $this->render('auth/register.html.twig', [
             'registrationForm' => $form->createView(),

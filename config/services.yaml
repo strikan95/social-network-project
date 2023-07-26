@@ -24,5 +24,12 @@ services:
         arguments:
             -  '@service_container'
 
+    App\Services\PostService:
+        arguments:
+            - '@service_container'
+
+    App\Services\UserService:
+        arguments:
+            - '@service_container'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

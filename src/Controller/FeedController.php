@@ -2,38 +2,44 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Post;
-use App\Form\PostType;
-use Symfony\Component\HttpFoundation\Request;
+use App\Entity\User;
+use App\Repository\Interfaces\PostRepositoryInterface;
+use App\Repository\Interfaces\UserRepositoryInterface;
+use App\Services\PostService;
+use App\Form\CreatePostForm;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FeedController extends AbstractController
 {
-    #[Route('/feed', name: 'app_feed')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function __construct(
+        private readonly PostRepositoryInterface $postRepository
+    )
     {
-        $allPosts = $entityManager->getRepository(Post::class)->findBy([], ['id' => 'DESC']);
-        //$users = $entityManager->getRepository(User::class)->findAll();
-        $user = $this->getUser();
-        $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
-    
+    }
+
+    #[Route('/feed', name: 'app.feed.show')]
+    public function index(Request $request): Response
+    {
+        $form = $this->createForm(CreatePostForm::class);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid() ){
-            $post = $form->getData();
-            $entityManager->persist($post);
-            $entityManager->flush();
-            return $this->redirect($request->getUri());
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $author */
+            $author = $this->getUser();
+
+            // Create and publish
+            $post = Post::create($author, $form->getData());
+            $this->postRepository->save($post, true);
         }
 
         return $this->render('pages/feed_page.html.twig', [
-            'posts' => $allPosts,
+            'posts' => $this->postRepository->findAll(),
             'form' => $form,
-            'time' => time(),
-            'user' => $user
+            'user' => $this->getUser()
         ]);
     }
 }

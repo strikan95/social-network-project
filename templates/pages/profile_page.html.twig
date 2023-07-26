@@ -3,15 +3,15 @@
 {% block profile %}
 <div class="page--profile">
     <div class="profile__banner">
-        {% if profile.backgroundImage is defined and profile.backgroundImage is not empty %}
-            <img src="{{ asset('/uploads/'~ profile.backgroundImage) }}" alt="">
+        {% if user.profile.backgroundImage is defined and user.profile.backgroundImage is not empty %}
+            <img src="{{ asset('/uploads/'~ user.profile.backgroundImage) }}" alt="">
         {% else %}
             <img src="{{ asset('/images/background_image.jpg') }}" alt="">
         {% endif %}
     </div>
     <div class="profile__info">
-        {% if profile.profileImage is defined and profile.profileImage is not empty %}
-            <img class="info__container--image" src="{{ asset('/uploads/'~ profile.profileImage) }}" alt="">
+        {% if user.profile.profileImage is defined and user.profile.profileImage is not empty %}
+            <img class="info__container--image" src="{{ asset('/uploads/'~ user.profile.profileImage) }}" alt="">
         {% else %}
             <img class="info__container--image" src="{{ asset('/images/zuck_image.png') }}" alt="">
         {% endif %}
@@ -41,16 +41,16 @@
         <div class="info__container--text">
             <div class="text__introduction">
                 <span>Introduction</span>
-                {% if profile.briefDescription is defined %}
-                    <span class="info__description">{{profile.briefDescription}}</span>
+                {% if user.profile.briefDescription is defined %}
+                    <span class="info__description">{{user.profile.briefDescription}}</span>
                 {% else %}
                     <span class="info__description">-</span>
                 {% endif %}
             </div>
             <div class="text__description">
                 <span>Description</span>
-                {% if profile.description is defined %}
-                    <span class="info__description--brief">{{profile.description}}</span>
+                {% if user.profile.description is defined %}
+                    <span class="info__description--brief">{{user.profile.description}}</span>
                 {% else %}
                     <span class="info__description--brief">-</span>
                 {% endif %}
@@ -59,7 +59,7 @@
         <div class="info__container">   
                 <div class="info__followers">
                     <img src="{{ asset('/images/people_icon.png') }}" alt="">
-                    {% if profile.followers is defined %}
+                    {% if user.followers is defined %}
                         <span>Followers 37</span>
                     {% else %}
                         <span>Followers 0</span>
@@ -67,24 +67,24 @@
                 </div>
             <div class="info__following">
                 <img src="{{ asset('/images/heart_icon.png') }}" alt="">
-                {% if profile.followers is defined %}
+                {% if user.followers is defined %}
                     <span>Following 117</span>
                 {% else %}
                     <span>Following 0</span>
                 {% endif %}
             </div>
 
-            {% if profile.location is defined %}
+            {% if user.location is defined %}
             <div class="info__location">
                 <img src="{{ asset('/images/map_icon.png') }}" alt="">
-                <span>{{ profile.locatiton }}</span>
+                <span>{{ user.locatiton }}</span>
             </div>
             {% endif %}
 
-            {% if profile.date is defined %}
+            {% if user.date is defined %}
             <div class="info__created">
                 <img src="{{ asset('/images/calendar_icon.png') }}" alt="">
-                <span>{{ profile.date }}</span>
+                <span>{{ user.date }}</span>
             </div>
             {% endif %}
 

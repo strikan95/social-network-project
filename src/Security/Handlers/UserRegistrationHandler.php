@@ -38,8 +38,7 @@ class UserRegistrationHandler
     public function onSuccess(): void
     {
         // Create and store
-        $this->user = UserFactory::factory()
-            ->buildOrUpdate($this->form->getData());
+        $this->user = User::create($this->form->getData());
         $this->repository->save($this->user, true);
 
         // Login

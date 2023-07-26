@@ -2,29 +2,36 @@
 
 namespace App\Controller;
 
-use App\Form\PostType;
 use App\Entity\Post;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
+use App\Form\CreatePostForm;
+use App\Repository\Interfaces\PostRepositoryInterface;
+use App\Repository\Interfaces\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PostController extends AbstractController
 {
-    #[Route('/post', name: 'app_post')]
-    public function __invoke(Request $request, EntityManagerInterface $entityManager): Response
+    public function __construct(
+        private readonly PostRepositoryInterface $postRepository
+    )
     {
-        $post = new Post();
+    }
 
-        $form = $this->createForm(PostType::class, $post);
-
+    #[Route('/post', name: 'app.post.create')]
+    public function createPost(Request $request): Response
+    {
+        $form = $this->createForm(CreatePostForm::class);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid() ){
-            $post = $form->getData();
-            $entityManager->persist($post);
-            $entityManager->flush();
-            return new Response('Saved new product with id '.$post->getId());
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $author */
+            $author = $this->getUser();
+
+            // Create and publish
+            $post = Post::create($author, $form->getData());
+            $this->postRepository->save($post, true);
         }
 
         return $this->render('post/index.html.twig', [

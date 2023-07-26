@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Entity;
-use App\Entity\User;
+use App\DTO\Post\CreatePostRequest;
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
-use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -13,78 +12,59 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id;
 
     #[ORM\Column(length: 10)]
-    private ?string $access = null;
+    private string $access;
 
     #[ORM\Column(length: 2000)]
-    private ?string $content = null;
+    private string $content;
 
-    #[ORM\Column(length: 2000)]
-    private ?string $createdAt = null;
+    #[ORM\Column(type: "datetime")]
+    private DateTime $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
-    public function getId(): ?int
+    public function __construct(
+        string $access,
+        string $content,
+        User $author
+    )
+    {
+        $this->access = $access;
+        $this->content = $content;
+        $this->user = $author;
+
+        // Set default values in the constructor
+        $this->createdAt = new DateTime();
+    }
+
+    public static function create(User $author, CreatePostRequest $createPostRequest): Post
+    {
+        return new self($createPostRequest->access, $createPostRequest->content, $author);
+    }
+
+    public function id(): ?int
     {
         return $this->id;
     }
 
-    public function getAccess(): ?string
+    public function access(): string
     {
         return $this->access;
     }
-
-    public function setAccess(string $access): static
-    {
-        $this->access = $access;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
+    public function content(): string
     {
         return $this->content;
     }
-
-    public function setContent(string $content): static
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?string
+    public function createdAt(): DateTime
     {
         return $this->createdAt;
     }
-
-    public function setCreatedAt(string $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function __construct()
-    {
-        // Set default values in the constructor
-        $this->createdAt = time();
-    }
-
-    public function getUser(): ?User
+    public function user(): User
     {
         return $this->user;
     }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
 }
