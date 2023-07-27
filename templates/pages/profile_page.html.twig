@@ -33,7 +33,15 @@
         {% if show is defined %}
             <div class="info__follow">
                 <h2>@{{user.username}}</h2>
-                <a href="">Follow</a>
+                {% if isFollowing == false %}
+                    <form action="{{ path('app.followers.follow', { 'id': user.id }) }}" method="post">
+                        <button type="submit" class="btn btn-primary">Follow</button>
+                    </form>
+                {% else %}
+                    <form action="{{ path('app.followers.unfollow', { 'id': user.id }) }}" method="post">
+                        <button type="submit" class="btn btn-primary">Unfollow</button>
+                    </form>
+                {% endif %}
             </div>
         {% else %}
             <h2>@{{user.username}}</h2>

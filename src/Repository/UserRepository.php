@@ -58,6 +58,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    public function isFollowing(string $requesterId, string $targetId): bool
+    {
+        $queryBuilder = $this->createQueryBuilder('q');
+        $queryBuilder->select('CASE WHEN COUNT(f.id) > 0 THEN true ELSE false END as isFollowing')
+            ->from(User::class, 'u')
+            ->leftJoin('u.followers', 'f', 'WITH', 'f.id = :currentUserFollowerId')
+            ->where('u.id = :profileUserId')
+            ->setParameter('currentUserFollowerId', $requesterId)
+            ->setParameter('profileUserId', $targetId);
+
+        return $queryBuilder->getQuery()->getSingleScalarResult() > 0;
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

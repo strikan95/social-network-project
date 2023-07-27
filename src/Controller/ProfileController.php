@@ -34,9 +34,11 @@ class ProfileController extends AbstractController
         if($id === $this->getUser()->id())
             return $this->redirect('/profile');
 
+        $isFollowing = $this->userRepository->isFollowing($this->getUser()->id(), $id);
         $user = $this->userRepository->find($id);
         return $this->render('pages/profile_page.html.twig', [
             'user' => $user,
+            'isFollowing' => $isFollowing,
             'show' => 'true'
         ]);
     }

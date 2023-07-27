@@ -54,19 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, cascade: ['persist'])]
     private Collection $posts;
 
-    // ...
-
-    /**
-     * Many Users have Many Users.
-     * @var Collection<int, User>
-     */
-    #[ManyToMany(targetEntity: User::class, mappedBy: 'following')]
+    #[ManyToMany(targetEntity: User::class, mappedBy: 'following', fetch: "EXTRA_LAZY")]
     private Collection $followers;
 
-    /**
-     * Many Users have many Users.
-     * @var Collection<int, User>
-     */
     #[JoinTable(name: 'followers')]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[InverseJoinColumn(name: 'follower_id', referencedColumnName: 'id')]
@@ -125,6 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function follow(User $toFollow): void
     {
         $this->following->add($toFollow);
+        $toFollow->followers->add($this);
     }
 
     public function unfollow(User $toUnfollow): void
@@ -177,12 +168,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->posts;
     }
 
-    public function followers(): ArrayCollection
+    public function followers()
     {
         return $this->followers;
     }
 
-    public function following(): ArrayCollection
+    public function following()
     {
         return $this->following;
     }
