@@ -10,6 +10,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Embedded;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -50,9 +54,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, cascade: ['persist'])]
     private Collection $posts;
 
+    // ...
+
+    /**
+     * Many Users have Many Users.
+     * @var Collection<int, User>
+     */
+    #[ManyToMany(targetEntity: User::class, mappedBy: 'following')]
+    private Collection $followers;
+
+    /**
+     * Many Users have many Users.
+     * @var Collection<int, User>
+     */
+    #[JoinTable(name: 'followers')]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'follower_id', referencedColumnName: 'id')]
+    #[ManyToMany(targetEntity: 'User', inversedBy: 'followers')]
+    private Collection $following;
+
     // ------------------------------------ DateTime ------------------------------------
 
-    private function __construct(
+    public function __construct(
         string $username,
         string $email,
         string $firstName,
@@ -77,6 +100,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->posts = new ArrayCollection();
+        $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
         return $this;
     }
 
@@ -96,7 +121,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $_instance;
     }
 
+    // -------------------------------- Behavior -------------------------------- //
+    public function follow(User $toFollow): void
+    {
+        $this->following->add($toFollow);
+    }
 
+    public function unfollow(User $toUnfollow): void
+    {
+        $this->following->removeElement($toUnfollow);
+    }
+
+    // -------------------------------- Properties -------------------------------- //
     public function id(): ?int
     {
         return $this->id;
@@ -141,7 +177,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->posts;
     }
 
-    // ------------------------------------ UserInterface ------------------------------------
+    public function followers(): ArrayCollection
+    {
+        return $this->followers;
+    }
+
+    public function following(): ArrayCollection
+    {
+        return $this->following;
+    }
+
+    // ------------------------------------ Auth stuff ------------------------------------
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
