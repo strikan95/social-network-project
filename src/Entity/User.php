@@ -80,10 +80,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public static function create(CreateUserRequest $createUserRequest, UserPasswordHasherInterface $passwordHasher): User
+    // -------------------------------- Factory -------------------------------- //
+    public static function create(CreateUserRequest $createUserRequest, UserPasswordHasherInterface $passwordHasher = null, string $preHashedPassword = null): User
     {
         $_instance = new self($createUserRequest->username, $createUserRequest->email, $createUserRequest->firstName, $createUserRequest->lastName);
-        $_instance->password = $passwordHasher->hashPassword($_instance, $createUserRequest->plainTextPassword);
+
+        if (null !== $preHashedPassword) {
+            $_instance->password = $preHashedPassword;
+        } else {
+            if (!$passwordHasher)
+                throw new \LogicException('Password or pre hashed password must be given');
+            $_instance->password = $passwordHasher->hashPassword($_instance, $createUserRequest->plainTextPassword);
+        }
 
         return $_instance;
     }
