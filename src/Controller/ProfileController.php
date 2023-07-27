@@ -29,11 +29,10 @@ class ProfileController extends AbstractController
     #[Route('/profile/show/{id}', name: 'app_profile_show')]
     public function show(int $id): Response
     {
-        $user = $this->userRepository->find($id);
-
-        if($user === $this->getUser())
+        if($id === $this->getUser()->id())
             return $this->redirect('/profile');
 
+        $user = $this->userRepository->find($id);
         return $this->render('pages/profile_page.html.twig', [
             'user' => $user,
             'show' => 'true'
