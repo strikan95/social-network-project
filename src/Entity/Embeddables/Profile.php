@@ -16,11 +16,11 @@ class Profile
     #[Column(type: "string")]
     private string $description;
 
-    #[Column(type: "string")]
-    private string $profileImage;
+    #[Column(type: "string", nullable: true)]
+    private ?string $profileImage;
 
-    #[Column(type: "string")]
-    private string $backgroundImage;
+    #[Column(type: "string", nullable: true)]
+    private ?string $backgroundImage;
 
     public function __construct(
         string $briefDescription,
@@ -37,7 +37,7 @@ class Profile
 
     public static function defaultProfile(): Profile
     {
-        return new self('This is my brief description.', 'This is my detailed description.', 'images/background_image.jpg', 'images/zuck_image.png');
+        return new self('This is my brief description.', 'This is my detailed description.', '', '');
     }
 
     public static function create(string $briefDescription, string $description, string $profileImage, string $backgroundImage): Profile
@@ -54,13 +54,13 @@ class Profile
 
             if ('backgroundImage' === $param)
             {
-                $this->backgroundImage = ImageManagerService::upload($value);
+                $this->backgroundImage = $updateProfileRequest->getUploadedBackgroundImageUri();
                 continue;
             }
 
             if ('profileImage' === $param)
             {
-                $this->profileImage = ImageManagerService::upload($value);
+                $this->profileImage = $updateProfileRequest->getUploadedProfileImageUri();
                 continue;
             }
 
