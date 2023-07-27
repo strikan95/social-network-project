@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Embedded;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -51,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     // ------------------------------------ DateTime ------------------------------------
 
-    public function __construct(
+    private function __construct(
         string $username,
         string $email,
         string $firstName,
@@ -79,10 +80,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public static function create(CreateUserRequest $createUserRequest): User
+    public static function create(CreateUserRequest $createUserRequest, UserPasswordHasherInterface $passwordHasher): User
     {
         $_instance = new self($createUserRequest->username, $createUserRequest->email, $createUserRequest->firstName, $createUserRequest->lastName);
-        $_instance->password = PasswordHasher::hashPassword($_instance, $createUserRequest->plainTextPassword);
+        $_instance->password = $passwordHasher->hashPassword($_instance, $createUserRequest->plainTextPassword);
 
         return $_instance;
     }
