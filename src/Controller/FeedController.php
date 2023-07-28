@@ -5,10 +5,9 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\Interfaces\PostRepositoryInterface;
-use App\Repository\Interfaces\UserRepositoryInterface;
-use App\Services\PostService;
 use App\Form\CreatePostForm;
-use DateTime;
+use App\Repository\PostRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +22,7 @@ class FeedController extends AbstractController
     }
 
     #[Route('/feed', name: 'app.feed.show')]
-    public function index(Request $request): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $form = $this->createForm(CreatePostForm::class);
         $form->handleRequest($request);
@@ -36,8 +35,19 @@ class FeedController extends AbstractController
             $this->postRepository->save($post, true);
         }
 
+        $pqb = $this->postRepository->withBuilder()
+            ->latest()
+            ->following($this->getUser()->id())
+            ->getQueryBuilder();
+
+        $pagination = $paginator->paginate(
+            $pqb,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('pages/feed_page.html.twig', [
-            'posts' => $this->postRepository->findAll(),
+            'posts' => $pagination->getItems(),
             'form' => $form,
             'user' => $this->getUser()
         ]);

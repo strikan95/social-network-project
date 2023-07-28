@@ -40,6 +40,11 @@ class PostRepository extends ServiceEntityRepository implements PostRepositoryIn
         }
     }
 
+    public function withBuilder(): PostQueryBuilder
+    {
+        return new PostQueryBuilder($this->getEntityManager());
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
