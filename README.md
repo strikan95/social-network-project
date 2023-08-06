@@ -1,5 +1,5 @@
 | Funkcionalnost | Backend | Frontend |
-| ------------ | ------------- | ------------- | ------------- |
+| --- | --- | --- |
 | Follow/Unfollow | &#9746; |  &#9746; |
 | Like/Dislike | &#9744; |  &#9744; |
 | Pretraga osoba | &#9744; |  &#9744; |
