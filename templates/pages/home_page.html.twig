@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block home %}
+<div class="page--home">
+    <div class="section__hero">
+    <div class="section__container">
+        <h1 class=""> Twitthreader</h1>
+        <span>Best of Both Worlds</span>
+    </div>
+</div>
+<div class="section__login">
+    <div class="login__container">
+        <h1 class="container__label--image">
+            Don't use violence. Use Twitthreader.
+        </h1>
+        <div class="container__image">
+            <img src="{{ asset('/images/contenders_image.png') }}" alt="">
+        </div>
+        <div class="container__authentification">
+            <h1 class="authentification__label--join">Join Twitthreader today!</h1>
+            <a class="authentification__button--create" href="{{ path('app.register') }}">Create account</a>
+            <h2 class="authentification__label--login">Login into account.</h2>
+            <a class="authentification__button--login" href="{{ path('app.login') }}">Login</a>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

@@ -11,7 +11,10 @@
         {% block javascripts %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}Dashboard{% endblock %}
+    <body onload=display_ct();>
+        {% block home %}{% endblock %}
+        {% block profile %}{% endblock %}
+        {% block new %}{% endblock %}
+        {% block body %}{% endblock %}
     </body>
 </html>

@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FeedController!{% endblock %}
+
+{% block body %}
+
+{% set username = user.username %}
+{% set firstName = user.firstName %}
+{% set lastName = user.lastName %}
+
+{% set url1 = asset('/images/user_icon.png') %}
+{% set url2 = asset('/images/gear_icon.png') %}
+{% set url3 = asset('/images/comment_icon.png')  %}
+{% set url4 = asset('/images/team_icon.png') %}
+
+{% set path1 = "/profile" %}
+{% set path2 = "/settings" %}
+{% set path3 = "/chat"  %}
+{% set path4 = "/people" %}
+
+<div class="page--feed">
+    <div class="section__profile">
+        {% include 'elements/profile_tab.html.twig' with {'username': username, 'lastName' : lastName, 'firstName' : firstName} %}
+        <div class="profile__actions">
+            {% include "elements/sidebar_left.html.twig"  with {'url1': url1,
+            'url2':url2, 'url3':url3, 'url4':url4, 'text1':'Profile', 'text2':'Settings',
+            'text3':'Messages', 'text4':'Find people', 'path1':path1, 'path2':path2, 'path3':path3, 
+            'path4':path4} %}
+        </div>
+        <div class="profile__tab--time">
+            <span id='ct' ></span>  
+        </div>
+    </div>
+
+    <div class="section__feed">
+        <div class="container__form">
+            {{ form(form) }}
+        </div>
+        <div class="container__select--feed">
+             <button class="select--personal">Your feed</button>
+             <span>|</span>
+             <button href="" class="select--public">Public</button>
+        </div>
+
+        {% for post in posts %}
+            {{ block("post_card", "elements/post_window.html.twig") }}
+        {% endfor %}
+
+
+    </div>
+
+    <div class="section__users">
+        <ul>
+
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript"> 
+
+var select__public = document.querySelector(".select--public");
+var select__personal = document.querySelector(".select--personal");
+var post_card = document.querySelectorAll(".post__card")
+for(var i = 0; i<post_card.length; i++){
+
+    if(post_card[i].dataset.access=="Public" || post_card[i].dataset.access=="public"){
+        post_card[i].style = "display: none;";
+    }
+}
+
+select__public.style = "opacity:0.5";
+
+select__personal.addEventListener("click", () => {
+    select__personal.style = "opacity:1";
+    select__public.style = "opacity:0.5";
+        for(var i = 0; i<post_card.length; i++){
+    if(post_card[i].dataset.access=="Public" || post_card[i].dataset.access=="public"){
+        post_card[i].style = "display: none;";
+    }
+    else{
+        post_card[i].style = "display: flex";
+    }
+}
+});
+
+select__public.addEventListener("click", () => {
+    select__public.style = "opacity:1";
+    select__personal.style = "opacity:0.5";
+    for(var i = 0; i<post_card.length; i++){
+    if(post_card[i].dataset.access=="Public" || post_card[i].dataset.access=="public"){
+        post_card[i].style = "display: flex;";
+    }
+    else{
+        post_card[i].style = "display: none";
+    }
+}
+});
+
+</script>
+{% endblock %}
+

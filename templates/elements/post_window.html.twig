@@ -1,0 +1,18 @@
+
+{% block post_card %}
+<div class="post__card" data-access="{{post.access}}">
+    <div class="card__row--one">
+        <div class="info--profile">
+            <img src="{{ asset('/images/zuck_image.png') }}" alt="">
+            <ul>
+                <li><span>{{ post.user.firstname }} {{ post.user.lastname }}</span></li>
+                <li><span>@{{ post.user.username }}</span></li>
+            </ul>
+        </div>
+        <span id="published"></span>
+    </div>
+    <div class="card__row--two">
+        <span>{{ post.content }}</span>
+    </div>
+</div>
+{% endblock %}

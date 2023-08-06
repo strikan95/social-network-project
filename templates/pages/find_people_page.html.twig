@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Find people{% endblock %}
+
+{% block body %}
+
+{% set username = user.username %}
+{% set firstName = user.firstName %}
+{% set lastName = user.lastName %}
+
+{% set url1 = asset('/images/user_icon.png') %}
+{% set url2 = asset('/images/gear_icon.png') %}
+{% set url3 = asset('/images/comment_icon.png')  %}
+{% set url4 = asset('/images/feed_icon.png') %}
+
+{% set path1 = "/profile" %}
+{% set path2 = "/settings" %}
+{% set path3 = "/chat"  %}
+{% set path4 = "/feed" %}
+
+<div class="page--people">
+    <div class="section__profile">
+         {% include 'elements/profile_tab.html.twig' with {'username': username,
+                        'lastName' : lastName, 'firstName' : firstName} %} 
+        <div class="profile__actions">
+            {% include "elements/sidebar_left.html.twig"  with {'url1': url1,
+            'url2':url2, 'url3':url3, 'url4':url4, 'text1':'Profile', 'text2':'Settings',
+            'text3':'Messages', 'text4':'Feed', 'path1':path1, 'path2':path2, 'path3':path3, 
+            'path4':path4 } %}
+        </div>
+        <div class="profile__tab--time">
+            <span id='ct' ></span>  
+        </div>
+    </div>
+
+    <div class="section__feed">
+        <h1 class="feed__title">Find people</h1>
+        <div class="feed__profiles">
+            {% for user in users %}
+                        {% set username = user.username %}
+                        {% set firstName = user.firstName %}
+                        {% set lastName = user.lastName %}
+                       {% include 'elements/profile_tab.html.twig' with {'username': username,
+                        'lastName' : lastName, 'firstName' : firstName} %} 
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<script>
+/*    function display_c(){
+        var refresh=1000; // Refresh rate in milli seconds
+        mytime=setTimeout('display_ct()',refresh)
+    }
+
+    function display_ct() {
+        var x = new Date()
+        var x1 = x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
+        x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
+        document.getElementById('ct').innerHTML = x1;
+        display_c();
+    }*/
+</script>
+{% endblock %}
+

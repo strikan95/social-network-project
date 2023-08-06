@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="page--settings">
+        <div class="section__container">
+            <div class="container__navigation">
+                <a href="/profile">
+                    <img src="{{ asset('/images/user_icon.png') }}"   alt="">
+                </a>
+                <a href="/feed">
+                    <img src="{{ asset('/images/feed_icon.png') }}"  alt="">
+                </a>
+                <a href="/people">
+                    <img src="{{ asset('/images/team_icon.png') }}"  alt="">
+                </a>
+                <a href="/messages">
+                    <img src="{{ asset('/images/comment_icon.png') }}"  alt="">
+                </a>
+            </div>
+            <h1>@{{user.username}} profile settings</h1>
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}  

@@ -1,0 +1,27 @@
+.sidebar--left{
+    li{
+        list-style-type: none;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: start;
+        align-items: center;
+        width: 12rem;
+        padding-bottom: 2rem;
+        a{
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+
+            span{
+                font-size: 1.5rem;
+            }
+
+            img{
+                height: 2.5rem;
+                padding-right: 0.75rem;
+            }
+        }
+    }
+}

@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -263,3 +262,6 @@ mysql-local/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+#ignore user uploaded files
+/public/uploads/

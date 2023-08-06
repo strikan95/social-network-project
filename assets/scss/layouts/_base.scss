@@ -1,0 +1,25 @@
+body {
+    position: relative;
+    background: #efefee;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    overflow-y: hidden;
+}
+
+li{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    opacity: 0.5;
+}
+
+@keyframes Animation { 
+    0%{background-position:10% 0%}
+    50%{background-position:91% 100%}
+    100%{background-position:10% 0%}
+}
