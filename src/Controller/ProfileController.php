@@ -45,8 +45,8 @@ class ProfileController extends AbstractController
         $isFollowing = $this->userRepository->isFollowing($this->getUser()->id(), $id);
         $user = $this->userRepository->find($id);
 
-        $followers = $this->getUser()->followers();
-        $following = $this->getUser()->following();
+        $followers = $user->followers();
+        $following = $user->following();
         $followerCount = count($followers);
         $followingCount = count($following);
 
@@ -55,7 +55,8 @@ class ProfileController extends AbstractController
             'isFollowing' => $isFollowing,
             'show' => 'true',
             'followerCount' => $followerCount,
-            'followingCount' => $followingCount
+            'followingCount' => $followingCount,
+            'id' => $id
         ]);
     }
 

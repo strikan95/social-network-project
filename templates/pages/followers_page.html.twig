@@ -18,20 +18,9 @@
             </a>
         </div>
         <h1>Followers</h1>
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
-        {% include 'elements/profile_tab.html.twig' with {'username': "Mrgud", 'lastName' : "Gubo", 'firstName' : "Dominik"} %}
+        {% for follow in followers %}
+            {% include 'elements/profile_tab.html.twig' with {'username': follow.username, 'lastName' : follow.lastName, 'id' : follow.id, 'firstName' : follow.firstName} %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

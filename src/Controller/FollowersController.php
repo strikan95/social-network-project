@@ -44,23 +44,33 @@ class FollowersController extends AbstractController
         return $this->redirectToRoute('app_profile_show', ['id' => $id]);
     }
 
-    #[Route('/followers', name: 'app.following')]
+    #[Route('/followers', name: 'app.followers')]
     public function followers(): Response
     {
         $currentUser = $this->getUser(); 
         $followers = $currentUser->followers();
-        $following = $currentUser->following();
-        $followerCount = count($following);
-        dd($following);
 
 
         return $this->render('pages/followers_page.html.twig', [
             'user' => $currentUser,
-            //'followerCount' => $followerCount
+            'followers' => $followers
         ]);
     }
 
-    #[Route('/following', name: 'app.followers')]
+    #[Route('/followers/show/{id}', name: 'app.followers.show')]
+    public function showFollowers(int $id): Response
+    {
+        $user = $this->userRepository->find($id);
+        $followers = $user->followers();
+
+
+        return $this->render('pages/followers_page.html.twig', [
+            'user' => $user,
+            'followers' => $followers
+        ]);
+    }
+
+    #[Route('/following', name: 'app.following')]
     public function following(): Response
     {
         $currentUser = $this->getUser(); 
@@ -72,6 +82,19 @@ class FollowersController extends AbstractController
             'user' => $currentUser,
             'following' => $following,
             'unfollowFlag' => "true"
+        ]);
+    }
+
+    #[Route('/following/show/{id}', name: 'app.following.show')]
+    public function showFollowing(int $id): Response
+    {
+        $user = $this->userRepository->find($id);
+        $following = $user->following();
+
+
+        return $this->render('pages/followers_page.html.twig', [
+            'user' => $user,
+            'following' => $following
         ]);
     }
 }

@@ -65,7 +65,11 @@
             </div>
         </div>
         <div class="info__container">   
+                {% if show is defined %}
+                <a href="/followers/show/{{id}}" class="info__following">
+                {% else %}
                 <a href="/followers" class="info__followers">
+                {% endif %}
                     <img src="{{ asset('/images/people_icon.png') }}" alt="">
                     {% if user.followers is defined and user.followers %}
                         <span>Followers {{followerCount}}</span>
@@ -73,7 +77,12 @@
                         <span>Followers 0</span>
                     {% endif %}
                 </a>
+      
+            {% if show is defined %}
+            <a href="/following/show/{{id}}" class="info__following">
+            {% else %}
             <a href="/following" class="info__following">
+            {% endif %}
                 <img src="{{ asset('/images/heart_icon.png') }}" alt="">
                 {% if user.followers is defined and user.followers %}
                     <span>Following {{followingCount}}</span>
