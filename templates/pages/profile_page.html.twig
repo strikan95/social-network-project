@@ -65,22 +65,22 @@
             </div>
         </div>
         <div class="info__container">   
-                <div class="info__followers">
+                <a href="/followers" class="info__followers">
                     <img src="{{ asset('/images/people_icon.png') }}" alt="">
-                    {% if user.followers is defined %}
+                    {% if user.followers is defined and user.followers %}
                         <span>Followers 37</span>
                     {% else %}
                         <span>Followers 0</span>
                     {% endif %}
-                </div>
-            <div class="info__following">
+                </a>
+            <a href="/following" class="info__following">
                 <img src="{{ asset('/images/heart_icon.png') }}" alt="">
-                {% if user.followers is defined %}
+                {% if user.followers is defined and user.followers %}
                     <span>Following 117</span>
                 {% else %}
                     <span>Following 0</span>
                 {% endif %}
-            </div>
+            </a>
 
             {% if user.location is defined %}
             <div class="info__location">

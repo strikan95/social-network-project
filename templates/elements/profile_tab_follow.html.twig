@@ -1,0 +1,21 @@
+
+{% block profile_tab %}
+    <div class="profile__tab">
+        <img src="{{ asset('/images/zuck_image.png') }}" alt="">
+        <ul>
+            {% if firstName is defined %}
+                <li>{{firstName}} {{lastName}}</li>
+                <li>@{{ username }}</li>
+            {% else %}
+                <li>Firstname Lastname</li>
+                <li>@Username</li>
+            {% endif %}
+            {% if unfollowFlag is defined %}
+            <a href="">Unfollow</a>
+            {% endif %}
+            {% if followFlag is defined %}
+            <a href="">Follow</a>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

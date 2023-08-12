@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\Interfaces\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FollowersController extends AbstractController
@@ -41,5 +42,32 @@ class FollowersController extends AbstractController
         $this->addFlash('success', 'You unfollowed the user');
 
         return $this->redirectToRoute('app_profile_show', ['id' => $id]);
+    }
+
+    #[Route('/followers', name: 'app.following')]
+    public function followers(): Response
+    {
+        $currentUser = $this->getUser(); 
+        $followers = $currentUser->followers();
+
+
+        return $this->render('pages/followers_page.html.twig', [
+            'user' => $currentUser,
+            'followers' => $followers
+        ]);
+    }
+
+    #[Route('/following', name: 'app.followers')]
+    public function following(): Response
+    {
+        $currentUser = $this->getUser(); 
+        $followers = $currentUser->followers();
+
+
+        return $this->render('pages/following_page.html.twig', [
+            'user' => $currentUser,
+            'followers' => $followers,
+            'unfollowFlag' => "true"
+        ]);
     }
 }

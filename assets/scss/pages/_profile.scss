@@ -119,7 +119,8 @@
             margin-bottom: 2rem;
             column-gap: 2.5rem;
 
-            div{
+            a{
+                cursor: pointer;
                 display: flex;
                 flex-flow: row;
                 align-items: center;
