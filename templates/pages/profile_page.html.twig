@@ -3,14 +3,14 @@
 {% block profile %}
 <div class="page--profile">
     <div class="profile__banner">
-        {% if user.profile.backgroundImage is defined and user.profile.backgroundImage is not empty %}
+        {% if user.backgroundImage is defined and user.profile.backgroundImage is not empty %}
             <img src="{{ asset('/uploads/'~ user.profile.backgroundImage) }}" alt="">
         {% else %}
             <img src="{{ asset('/images/background_image.jpg') }}" alt="">
         {% endif %}
     </div>
     <div class="profile__info">
-        {% if user.profile.profileImage is defined and user.profile.profileImage is not empty %}
+        {% if user.profileImage is defined and user.profile.profileImage is not empty %}
             <img class="info__container--image" src="{{ asset('/uploads/'~ user.profile.profileImage) }}" alt="">
         {% else %}
             <img class="info__container--image" src="{{ asset('/images/zuck_image.png') }}" alt="">
@@ -68,7 +68,7 @@
                 <a href="/followers" class="info__followers">
                     <img src="{{ asset('/images/people_icon.png') }}" alt="">
                     {% if user.followers is defined and user.followers %}
-                        <span>Followers 37</span>
+                        <span>Followers {{followerCount}}</span>
                     {% else %}
                         <span>Followers 0</span>
                     {% endif %}
@@ -76,7 +76,7 @@
             <a href="/following" class="info__following">
                 <img src="{{ asset('/images/heart_icon.png') }}" alt="">
                 {% if user.followers is defined and user.followers %}
-                    <span>Following 117</span>
+                    <span>Following {{followingCount}}</span>
                 {% else %}
                     <span>Following 0</span>
                 {% endif %}

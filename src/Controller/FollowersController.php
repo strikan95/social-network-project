@@ -49,11 +49,14 @@ class FollowersController extends AbstractController
     {
         $currentUser = $this->getUser(); 
         $followers = $currentUser->followers();
+        $following = $currentUser->following();
+        $followerCount = count($following);
+        dd($following);
 
 
         return $this->render('pages/followers_page.html.twig', [
             'user' => $currentUser,
-            'followers' => $followers
+            //'followerCount' => $followerCount
         ]);
     }
 
@@ -61,12 +64,13 @@ class FollowersController extends AbstractController
     public function following(): Response
     {
         $currentUser = $this->getUser(); 
-        $followers = $currentUser->followers();
+        $following = $currentUser->following();
+
 
 
         return $this->render('pages/following_page.html.twig', [
             'user' => $currentUser,
-            'followers' => $followers,
+            'following' => $following,
             'unfollowFlag' => "true"
         ]);
     }
