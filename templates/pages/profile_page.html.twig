@@ -28,6 +28,12 @@
             <a href="/messages">
                 <img src="{{ asset('/images/comment_icon.png') }}"  alt="">
             </a>
+            {% if show is defined %}
+            {% else %}
+            <a href="/logout">
+                <img src="{{ asset('/images/close_icon.png') }}"  alt="logout">
+            </a>
+            {% endif %}
         </div>
         <h1>{{user.firstName}} {{user.lastName}}</h1>
         {% if show is defined %}

@@ -1,8 +1,7 @@
 
 {% block profile_tab %}
-    <a href="/profile/show/{{id}}">
         <div class="profile__tab">
-            <img src="{{ asset('/images/zuck_image.png') }}" alt="">
+            <a href="/profile/show/{{id}}"><img src="{{ asset('/images/zuck_image.png') }}" alt=""></a>
             <ul>
                 {% if firstName is defined %}
                     <li>{{firstName}} {{lastName}}</li> 
@@ -19,5 +18,4 @@
                 {% endif %}
             </ul>
         </div>
-    </a>
 {% endblock %}

@@ -92,7 +92,7 @@ class FollowersController extends AbstractController
         $following = $user->following();
 
 
-        return $this->render('pages/followers_page.html.twig', [
+        return $this->render('pages/following_page.html.twig', [
             'user' => $user,
             'following' => $following
         ]);
