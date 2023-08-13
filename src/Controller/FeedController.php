@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\Interfaces\PostRepositoryInterface;
 use App\Form\CreatePostForm;
+use App\Form\SearchUsersType;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +36,13 @@ class FeedController extends AbstractController
             $this->postRepository->save($post, true);
         }
 
+        $searchForm = $this->createForm(SearchUsersType::class);
+        $searchForm->handleRequest($request);
+        $query = $searchForm["query"]->getData();
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            return $this->redirectToRoute('app.search', ['query' => $query]);
+        }
+
         $pqb = $this->postRepository->withBuilder()
             ->latest()
             ->following($this->getUser()->id())
@@ -49,6 +57,7 @@ class FeedController extends AbstractController
         return $this->render('pages/feed_page.html.twig', [
             'posts' => $pagination->getItems(),
             'form' => $form,
+            'searchForm' => $searchForm,
             'user' => $this->getUser()
         ]);
     }
