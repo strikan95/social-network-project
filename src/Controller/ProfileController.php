@@ -28,11 +28,13 @@ class ProfileController extends AbstractController
         $following = $currentUser->following();
         $followerCount = count($followers);
         $followingCount = count($following);
+        $posts = $currentUser->posts();
 
         return $this->render('pages/profile_page.html.twig', [
             'user' => $this->getUser(),
             'followerCount' => $followerCount,
-            'followingCount' => $followingCount
+            'followingCount' => $followingCount,
+            'posts' => $posts
         ]);
     }
 
@@ -49,6 +51,7 @@ class ProfileController extends AbstractController
         $following = $user->following();
         $followerCount = count($followers);
         $followingCount = count($following);
+        $posts = $user->posts();
 
         return $this->render('pages/profile_page.html.twig', [
             'user' => $user,
@@ -56,7 +59,8 @@ class ProfileController extends AbstractController
             'show' => 'true',
             'followerCount' => $followerCount,
             'followingCount' => $followingCount,
-            'id' => $id
+            'id' => $id,
+            'posts' => $posts
         ]);
     }
 

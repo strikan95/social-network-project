@@ -163,7 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->profile;
     }
 
-    public function posts(): ArrayCollection
+    public function posts(): Collection
     {
         return $this->posts;
     }
