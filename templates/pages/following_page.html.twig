@@ -18,9 +18,13 @@
             </a>
         </div>
         <h1>Following</h1>
-         {% for follow in following %}
-            {% include 'elements/profile_tab_follow.html.twig' with {'username': follow.username, 'lastName' : follow.lastName, 'id' : follow.id, 'firstName' : follow.firstName} %}
-        {% endfor %}
+        {% if following|length > 0 %}
+            {% for follow in following %}
+                {% include 'elements/profile_tab_follow.html.twig' with {'username': follow.username, 'lastName' : follow.lastName, 'id' : follow.id, 'firstName' : follow.firstName} %}
+            {% endfor %}
+        {% else %}
+            <h3>@{{user.username}} doesn't follow anyone</h3>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

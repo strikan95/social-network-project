@@ -58,7 +58,8 @@ class FeedController extends AbstractController
             'posts' => $pagination->getItems(),
             'form' => $form,
             'searchForm' => $searchForm,
-            'user' => $this->getUser()
+            'user' => $this->getUser(),
+            'time' =>  time()
         ]);
     }
 }

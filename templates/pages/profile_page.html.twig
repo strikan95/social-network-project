@@ -16,9 +16,12 @@
             <img class="info__container--image" src="{{ asset('/images/zuck_image.png') }}" alt="">
         {% endif %}
         <div class="info__navigation">
+            {% if show is defined %}
+            {% else %}
             <a href="/settings">
                 <img src="{{ asset('/images/gear_icon.png') }}"   alt="">
             </a>
+            {% endif %}
             <a href="/feed">
                 <img src="{{ asset('/images/feed_icon.png') }}"  alt="">
             </a>

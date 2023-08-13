@@ -9,7 +9,7 @@
                 <li><span>@{{ post.user.username }}</span></li>
             </ul>
         </div>
-        <span id="published"></span>
+        <span id="published">{{post.createdAtinUnixTime}}</span>
     </div>
     <div class="card__row--two">
         <span>{{ post.content }}</span>

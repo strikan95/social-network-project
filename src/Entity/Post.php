@@ -67,4 +67,9 @@ class Post
     {
         return $this->user;
     }
+
+    public function createdAtinUnixTime() : int
+    {
+        return $this->createdAt->getTimestamp();
+    }
 }
