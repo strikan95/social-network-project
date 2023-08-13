@@ -1,7 +1,7 @@
 
 {% block profile_tab %}
         <div class="profile__tab">
-            <a href="/profile/show/{{id}}"><img src="{{ asset('/images/zuck_image.png') }}" alt=""></a>
+            <a href="{{url('app_profile_show', {'id' : id})}}"><img src="{{ asset('/images/zuck_image.png') }}" alt=""></a>
             <ul>
                 {% if firstName is defined %}
                     <li>{{firstName}} {{lastName}}</li> 

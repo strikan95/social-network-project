@@ -8,11 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\SearchUsersType;
 
 class PeopleController extends AbstractController
 {
     #[Route('/people', name: 'app_people')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
         $user = $this->getUser();
         $userRepo = $entityManager->getRepository(User::class); 
@@ -23,9 +24,17 @@ class PeopleController extends AbstractController
         ->getQuery()
         ->getResult();
 
+        $searchForm = $this->createForm(SearchUsersType::class);
+        $searchForm->handleRequest($request);
+        $query = $searchForm["query"]->getData();
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            return $this->redirectToRoute('app.search', ['query' => $query]);
+        }
+
         return $this->render('pages/find_people_page.html.twig', [
             'users' => $limitUsers,
-            'user' => $user
+            'user' => $user,
+            'searchForm' => $searchForm
         ]);
     }
 
