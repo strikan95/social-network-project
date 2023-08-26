@@ -8,3 +8,8 @@ app.logout:
     path: /logout
     methods: ['POST', 'GET']
 
+twilio_auth:
+    path: /auth/user/{user}
+    controller: App\Controller\TwilioController::twilioAuth
+    methods: [GET]
+

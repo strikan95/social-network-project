@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Find people{% endblock %}
+{% block title %}Chat{% endblock %}
 
-{% block body %}
+{% block chat %}
 
 {% set username = user.username %}
 {% set firstName = user.firstName %}
@@ -20,7 +20,7 @@
 {% set path4 = "/people" %}
 {% set path5 = "/logout" %}
 
-<div class="page--people">
+<div class="page--chat">
     <div class="section__profile">
          {% include 'elements/profile_tab.html.twig' with {'username': username,
                         'lastName' : lastName, 'id' : user.id, 'firstName' : firstName} %} 
@@ -35,33 +35,17 @@
         </div>
     </div>
 
-    <div class="section__feed">
-        <h1 class="feed__title">Find people</h1>
-        <div class="feed__profiles">
-            {% for user in users %}
-                        {% set username = user.username %}
-                        {% set firstName = user.firstName %}
-                        {% set lastName = user.lastName %}
-                        {% include 'elements/profile_tab_follow.html.twig' with {'followFlag': true, 'username': user.username, 'lastName' : user.lastName, 'id' : user.id, 'firstName' : user.firstName } %}
-            {% endfor %}
+    <div class="section__chat">
+        <div class="chat__sidebar">
+            <div class="chat__tab">
+                {% include 'elements/profile_tab.html.twig' with {'username': user.username, 'lastName' : user.lastName, 'id' : user.id, 'firstName' : user.firstName } %}
+            </div>
+        </div>
+        <div class="chat__window">
+
         </div>
     </div>
 </div>
 
-
-<script>
-/*    function display_c(){
-        var refresh=1000; // Refresh rate in milli seconds
-        mytime=setTimeout('display_ct()',refresh)
-    }
-
-    function display_ct() {
-        var x = new Date()
-        var x1 = x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
-        x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
-        document.getElementById('ct').innerHTML = x1;
-        display_c();
-    }*/
-</script>
 {% endblock %}
 

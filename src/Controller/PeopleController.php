@@ -17,9 +17,16 @@ class PeopleController extends AbstractController
     {
         $user = $this->getUser();
         $userRepo = $entityManager->getRepository(User::class); 
+        $followingUsers = $user->following();
+        $followingUserIds = [];
+        foreach ($followingUsers as $followingUser) {
+            $followingUserIds[] = $followingUser->id();
+        }
         $limitUsers = $userRepo->createQueryBuilder('people')
         ->where("people.id != :user")
+        ->andWhere('people.id NOT IN (:following)')
         ->setParameter("user", $user)
+        ->setParameter('following', $followingUserIds)
         ->setMaxResults(9)
         ->getQuery()
         ->getResult();

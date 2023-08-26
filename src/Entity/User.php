@@ -63,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ManyToMany(targetEntity: 'User', inversedBy: 'followers')]
     private Collection $following;
 
+    #[ORM\ManyToMany(targetEntity: Message::class, mappedBy: 'user_id')]
+    private Collection $messages;
+
     // ------------------------------------ DateTime ------------------------------------
 
     public function __construct(
@@ -93,6 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->following = new ArrayCollection();
         $this->followers = new ArrayCollection();
         return $this;
+        $this->messages = new ArrayCollection();
     }
 
     // -------------------------------- Factory -------------------------------- //
@@ -202,5 +206,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->addUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            $message->removeUserId($this);
+        }
+
+        return $this;
     }
 }
