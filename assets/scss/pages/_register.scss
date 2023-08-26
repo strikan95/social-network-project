@@ -23,6 +23,11 @@
         overflow-y: auto;
         overflow-x: hidden;
 
+        .change--redirect{
+            margin-top: 3rem;
+            color: black;
+            justify-self: start;
+        }
         form{
             display: flex;
             flex-flow: column wrap;

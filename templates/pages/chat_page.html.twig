@@ -30,9 +30,6 @@
             'text3':'Messages', 'text4':'Find people', 'text5':'Logout', 'path1':path1, 'path2':path2, 'path3':path3, 
             'path4':path4, 'path5':path5} %}
         </div>
-        <div class="profile__tab--search">
-            <span id='ct' >{{ form(searchForm) }}</span>  
-        </div>
     </div>
 
     <div class="section__chat">
@@ -42,7 +39,15 @@
             </div>
         </div>
         <div class="chat__window">
-
+            <div class="window__messages">
+                <div class="message--current">
+                    <span>Test example 1, test of a message format spanning further</span>
+                </div>
+                <div class="message--other">
+                    <span>Test example 2, test of a message format spanning further</span>
+                </div>
+            </div>
+            <div class="window__input">{{ form(sendForm) }}</div>
         </div>
     </div>
 </div>

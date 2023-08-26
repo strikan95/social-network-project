@@ -41,7 +41,7 @@ class PeopleController extends AbstractController
         return $this->render('pages/find_people_page.html.twig', [
             'users' => $limitUsers,
             'user' => $user,
-            'searchForm' => $searchForm
+            'searchForm' => $searchForm,
         ]);
     }
 

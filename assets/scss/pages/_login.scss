@@ -22,7 +22,12 @@
         box-shadow: 3px 6px 20px 0px rgb(255 255 255 / 27%), inset -11px -9px 9px 0px rgba(145, 192, 255, 0.6), inset -20px -14px 0px 0px rgb(255 255 255);
         overflow-y: auto;
         overflow-x: hidden;
-
+        .change--redirect{
+            margin-top: 3rem;
+            color: black;
+            justify-self: start;
+            text-align: center;
+        }
         h1{
             padding-bottom: 2rem;
         }
