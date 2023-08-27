@@ -10,15 +10,16 @@
 
 {% set url1 = asset('/images/user_icon.png') %}
 {% set url2 = asset('/images/gear_icon.png') %}
-{% set url3 = asset('/images/comment_icon.png')  %}
+{% set url3 = asset('/images/feed_icon.png')  %}
 {% set url4 = asset('/images/team_icon.png') %}
 {% set url5 = asset('/images/close_icon.png') %}
 
 {% set path1 = "/profile" %}
 {% set path2 = "/settings" %}
-{% set path3 = "/chat"  %}
+{% set path3 = "/feed"  %}
 {% set path4 = "/people" %}
 {% set path5 = "/logout" %}
+
 
 <div class="page--chat">
     <div class="section__profile">
@@ -27,15 +28,17 @@
         <div class="profile__actions">
             {% include "elements/sidebar_left.html.twig"  with {'url1': url1,
             'url2':url2, 'url3':url3, 'url4':url4, 'text1':'Profile', 'text2':'Settings',
-            'text3':'Messages', 'text4':'Find people', 'text5':'Logout', 'path1':path1, 'path2':path2, 'path3':path3, 
+            'text3':'Feed', 'text4':'Find people', 'text5':'Logout', 'path1':path1, 'path2':path2, 'path3':path3, 
             'path4':path4, 'path5':path5} %}
         </div>
     </div>
-
     <div class="section__chat">
+       {% if conversations|length > 0 %}
         <div class="chat__sidebar">
             <div class="chat__tab">
-                {% include 'elements/profile_tab.html.twig' with {'username': user.username, 'lastName' : user.lastName, 'id' : user.id, 'firstName' : user.firstName } %}
+            {% for conversation in conversations %}
+                {% include 'elements/profile_tab.html.twig' with {'username': conversation.getSecondUser().username, 'lastName' : conversation.getSecondUser().lastName, 'id' : conversation.getSecondUser().id, 'firstName' : conversation.getSecondUser().firstName } %}
+            {% endfor %}
             </div>
         </div>
         <div class="chat__window">
@@ -46,11 +49,44 @@
                 <div class="message--other">
                     <span>Test example 2, test of a message format spanning further</span>
                 </div>
+                     <div class="message--current">
+                    <span>Test example 3, test of a message format spanning further</span>
+                </div>
+                <div class="message--other">
+                    <span>Test example 4, test of a message format spanning further</span>
+                </div>
             </div>
             <div class="window__input">{{ form(sendForm) }}</div>
         </div>
+        {% else %}
+            <h1 class="initialized--none">No conversations initialized</h1>
+        {% endif %}
     </div>
 </div>
+
+<script>
+/*const form = document.querySelector('#send-message-form');
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(form);
+    fetch('{{ path('app_chat_send') }}', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Successful message submission
+            // You can update the UI, clear the form, etc.
+        } else {
+            // Handle errors if needed
+        }
+    })
+    .catch(error => {
+        // Handle fetch errors
+    });
+});*/
+</script>
 
 {% endblock %}
 

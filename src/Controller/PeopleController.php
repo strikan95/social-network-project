@@ -22,14 +22,23 @@ class PeopleController extends AbstractController
         foreach ($followingUsers as $followingUser) {
             $followingUserIds[] = $followingUser->id();
         }
-        $limitUsers = $userRepo->createQueryBuilder('people')
-        ->where("people.id != :user")
-        ->andWhere('people.id NOT IN (:following)')
-        ->setParameter("user", $user)
-        ->setParameter('following', $followingUserIds)
-        ->setMaxResults(9)
-        ->getQuery()
-        ->getResult();
+        if(empty($followingUserIds)){
+            $limitUsers = $userRepo->createQueryBuilder('people')
+            ->where("people.id != :user")
+            ->setParameter("user", $user)
+            ->setMaxResults(9)
+            ->getQuery()
+            ->getResult();
+        } else {
+            $limitUsers = $userRepo->createQueryBuilder('people')
+            ->where("people.id != :user")
+            ->andWhere('people.id NOT IN (:following)')
+            ->setParameter("user", $user)
+            ->setParameter('following', $followingUserIds)
+            ->setMaxResults(9)
+            ->getQuery()
+            ->getResult();
+        }
 
         $searchForm = $this->createForm(SearchUsersType::class);
         $searchForm->handleRequest($request);

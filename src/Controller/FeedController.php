@@ -31,7 +31,6 @@ class FeedController extends AbstractController
             /** @var User $author */
             $author = $this->getUser();
 
-            // Create and publish
             $post = Post::create($author, $form->getData());
             $this->postRepository->save($post, true);
         }

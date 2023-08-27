@@ -99,11 +99,17 @@
         .chat__sidebar{
             display: flex;
             flex-flow: column;
+            align-content: center;
             width: 25%;
             height: 97%;
             overflow-y: auto;
-            padding-right: 0.5rem;
+            padding-right: 1.25rem;
             border-right: 1px solid rgba(0, 0, 0, 0.196);
+            .profile__tab{
+                border-left: 1px solid rgba(16, 37, 161, 0.171);
+                border-top: 1px solid rgba(16, 37, 161, 0.171);
+                margin-bottom: 1rem;
+            }
         }
         
         .chat__window{
@@ -115,7 +121,8 @@
                 display: flex;
                 margin-left: 1rem;
                 margin-right: 1rem;
-                max-height: 50%;
+                height: 70%;
+                max-height: 70%;
                 overflow-y: auto;
                 flex-flow: column;
                 align-content: center;
