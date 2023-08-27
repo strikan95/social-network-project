@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Repository\MessageRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ChatController extends AbstractController
 {
@@ -42,6 +42,7 @@ class ChatController extends AbstractController
             
             $this->entityManager->persist($message);
             $this->entityManager->flush();
+            return new JsonResponse(['success' => true]);
         }
 
         for($i = 0; $i<count($userConversations); $i++){
@@ -72,17 +73,50 @@ class ChatController extends AbstractController
         ]); 
     }
 
-    #[Route('/chat/request/{$id}', name: 'app_chat_send_profile')]
-    public function sendRequest(Request $request): Response
+    #[Route('/chat/conversation/{$id}', name: 'app_chat_send_profile')]
+    public function sendRequest(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $sendProfile = $request->get('id');
+        $conversationId = $request->get('id');
+        $currentConversation = $entityManager->getRepository(Conversation::class)->find($conversationId);
+        $user = $this->getUser();
+        $conversationRepo = $entityManager->getRepository(Conversation::class); 
+        $userConversations = $conversationRepo->createQueryBuilder('conversation')
+        ->where("conversation.first_user = :user")
+        ->orWhere("conversation.second_user = :user")
+        ->setParameter("user", $user)
+        ->getQuery()
+        ->getResult();
+
+        $sendForm = $this->createForm(SendMessageForm::class);
+        $sendForm->handleRequest($request);
+
+        if ($sendForm->isSubmitted()) {
+            $message = new Message();
+            $message->setContent($sendForm->get('content')->getData());
+            $message->addUserId($user);
+            $message->addConversationId($userConversations[0]);
+            
+            $this->entityManager->persist($message);
+            $this->entityManager->flush();
+            return new JsonResponse(['success' => true]);
+        }
+
+        for($i = 0; $i<count($userConversations); $i++){
+            if($userConversations[$i]->getFirstUser()!=$user){
+                $swap = $userConversations[$i]->getFirstUser();
+                $userConversations[$i]->setFirstUser($userConversations[$i]->getSecondUser());
+                $userConversations[$i]->setSecondUser($swap);
+            } 
+        }
 
         $sendForm = $this->createForm(SendMessageForm::class);
         $sendForm->handleRequest($request);
         $user = $this->getUser();
-        return $this->render('pages/chat_page.html.twig', [
+        return $this->render('pages/chat_page_show.html.twig', [
             'user' => $user,
-            'sendForm' => $sendForm
+            'sendForm' => $sendForm,
+            'conversations' => $userConversations,
+            'currentConversation' => $currentConversation
         ]);
     }
 }

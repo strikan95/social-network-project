@@ -96,6 +96,29 @@
             margin-bottom: 3rem;
         }
 
+        .chat__wrapper{
+            width: 100%;
+            display: flex;
+            flex-flow: column wrap;
+            align-content: center;
+            justify-content: start;
+
+            .wrapper_wrapping_wrappers_the_ultimate_wrapper{
+                margin-bottom: 2rem;
+
+                .wrapper__link{
+                    color: black;
+                    margin-top: 1rem;
+                }
+
+                .profile__tab{
+                    border-left: 1px solid rgba(16, 37, 161, 0.171);
+                    border-top: 1px solid rgba(16, 37, 161, 0.171);
+                    
+                }
+            }
+        }
+
         .chat__sidebar{
             display: flex;
             flex-flow: column;
@@ -114,6 +137,7 @@
         
         .chat__window{
             width: 70%;
+            max-height: 90%;
             display: flex;
             flex-flow: column;
             padding-bottom: 2rem;
@@ -121,8 +145,7 @@
                 display: flex;
                 margin-left: 1rem;
                 margin-right: 1rem;
-                height: 70%;
-                max-height: 70%;
+                height: 100%;
                 overflow-y: auto;
                 flex-flow: column;
                 align-content: center;

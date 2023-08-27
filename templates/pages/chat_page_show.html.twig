@@ -33,19 +33,39 @@
         </div>
     </div>
     <div class="section__chat">
-        <div class="chat__wrapper">
-            <h1>Current conversations</h1>
-        {% if conversations|length > 0 %}
-                {% for conversation in conversations %}
-                    <div class="wrapper_wrapping_wrappers_the_ultimate_wrapper">
-                        {% include 'elements/profile_tab.html.twig' with {'username': conversation.getSecondUser().username, 'lastName' : conversation.getSecondUser().lastName, 'id' : conversation.getSecondUser().id, 'firstName' : conversation.getSecondUser().firstName } %}
-                        <a class="wrapper__link" href="{{url('app_chat_send_profile', {'id' : conversation.id})}}">Open conversation</a>    
-                    </div>
-                {% endfor %}
-            {% else %}
-                <h1 class="initialized--none">No conversations initialized</h1>
-            {% endif %}
+       {% if conversations|length > 0 %}
+        <div class="chat__sidebar">
+            <div class="chat__tab">
+            {% for conversation in conversations %}
+                {% include 'elements/profile_tab.html.twig' with {'username': conversation.getSecondUser().username, 'lastName' : conversation.getSecondUser().lastName, 'id' : conversation.getSecondUser().id, 'firstName' : conversation.getSecondUser().firstName } %}
+            {% endfor %}
+            </div>
         </div>
+        <div class="chat__window">
+            <div class="window__messages">
+                <div class="message--current">
+                    <span>Test example 1, test of a message format spanning further</span>
+                </div>
+                <div class="message--other">
+                    <span>Test example 2, test of a message format spanning further</span>
+                </div>
+                {% for message in currentConversation.getMessages() %}
+                    {% if message.getUserId()[0].id == user.id %}
+                        <div class="message--current">
+                            <span>{{message.getContent()}}</span>
+                        </div>
+                    {% else %}
+                        <div class="message--other">
+                            <span>{{message.getContent()}}</span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="window__input">{{ form(sendForm, {'id': 'send_message_form'}) }}</div>
+        </div>
+        {% else %}
+            <h1 class="initialized--none">No conversations initialized</h1>
+        {% endif %}
     </div>
 </div>
 
