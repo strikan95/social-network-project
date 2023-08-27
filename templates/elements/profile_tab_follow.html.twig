@@ -1,7 +1,5 @@
 
 {% block profile_tab %}
-	
-<a href= www.example.com>
         <div class="profile__tab">
             <a href="{{url('app_profile_show', {'id' : id})}}"><img src="{{ asset('/images/zuck_image.png') }}" alt=""></a>
             <ul>
@@ -16,9 +14,8 @@
                 <a class="action--unfollow" href="">Unfollow</a>
                 {% endif %}
                 {% if followFlag is defined %}
-                <a class="action--follow" href="">Follow</a>
+                <a class="action--follow" href="{{url('app.followers.follow', {'id' : id})}}">Follow</a>
                 {% endif %}
             </ul>
         </div>
-</a>
 {% endblock %}

@@ -38,8 +38,7 @@
         {% if conversations|length > 0 %}
                 {% for conversation in conversations %}
                     <div class="wrapper_wrapping_wrappers_the_ultimate_wrapper">
-                        {% include 'elements/profile_tab.html.twig' with {'username': conversation.getSecondUser().username, 'lastName' : conversation.getSecondUser().lastName, 'id' : conversation.getSecondUser().id, 'firstName' : conversation.getSecondUser().firstName } %}
-                        <a class="wrapper__link" href="{{url('app_chat_send_profile', {'id' : conversation.id})}}">Open conversation</a>    
+                        {% include 'elements/chat_profile_tab.html.twig' with {'username': conversation.getSecondUser().username, 'lastName' : conversation.getSecondUser().lastName, 'id' : conversation.getSecondUser().id, 'firstName' : conversation.getSecondUser().firstName } %}   
                     </div>
                 {% endfor %}
         {% else %}
@@ -48,33 +47,6 @@
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const messageForm = document.querySelector(".window__input form");
-
-    messageForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const formData = new FormData(messageForm);
-        fetch(messageForm.action, {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the response data, e.g., update the chat window
-            if (data.success) {
-                // Update the chat window with the new message
-                // You might need to fetch the latest messages from the server
-                // and update the chat window with the new data
-            }
-        })
-        .catch(error => {
-            console.error("Error sending message:", error);
-        });
-    });
-});
-</script>
 
 {% endblock %}
 

@@ -17,7 +17,7 @@ class FollowersController extends AbstractController
     {
     }
 
-    #[Route('/users/{id}/follow', name: 'app.followers.follow', methods: ['POST'])]
+    #[Route('/users/{id}/follow', name: 'app.followers.follow', methods: ['POST','GET'])]
     public function follow(int $id): RedirectResponse
     {
         $userToFollow = $this->userRepository->find($id);
