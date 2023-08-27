@@ -34,7 +34,8 @@ class ProfileController extends AbstractController
             'user' => $this->getUser(),
             'followerCount' => $followerCount,
             'followingCount' => $followingCount,
-            'posts' => $posts
+            'posts' => $posts,
+            'time' =>  time()
         ]);
     }
 
@@ -60,7 +61,8 @@ class ProfileController extends AbstractController
             'followerCount' => $followerCount,
             'followingCount' => $followingCount,
             'id' => $id,
-            'posts' => $posts
+            'posts' => $posts,
+            'time' =>  time()
         ]);
     }
 

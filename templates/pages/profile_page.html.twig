@@ -128,6 +128,49 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+function createdTime(){
+    var createdAtElements = document.querySelectorAll("#published");
+    for(let i=0; i<createdAtElements.length; i++){
+        var time = {{time}}-createdAtElements[i].innerHTML
+        if(time<60){
+            if(time==1){
+                createdAtElements[i].innerHTML = "Posted " +time+ " second ago";
+            } else{
+                createdAtElements[i].innerHTML = "Posted " +time+ " seconds ago";
+            }
+        } else{
+            time=time/60;
+            time=time.toFixed(0);
+            if(time>=60){
+                time=(time/60).toFixed(0);
+                if(time>=24){
+                    time=(time/24).toFixed(0);
+                    if(time==1){
+                        createdAtElements[i].innerHTML= "Posted "+time+" day ago"
+                    } else{
+                        createdAtElements[i].innerHTML= "Posted "+time+" days ago"
+                    }
+                } else {
+                    if(time==1){
+                        createdAtElements[i].innerHTML= "Posted "+time+" hour ago"
+                    } else{
+                        createdAtElements[i].innerHTML= "Posted "+time+" hours ago"
+                    }
+                }
+            } else{
+                if(time==1){
+                    createdAtElements[i].innerHTML = "Posted " +time+ " minute ago";
+                } else{
+                    createdAtElements[i].innerHTML = "Posted " +time+ " minutes ago";
+                }
+            }
+        }
+    }
+}
+createdTime();
+</script>
 {% endblock %}
 
 
