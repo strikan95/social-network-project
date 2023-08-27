@@ -42,9 +42,9 @@
                         <a class="wrapper__link" href="{{url('app_chat_send_profile', {'id' : conversation.id})}}">Open conversation</a>    
                     </div>
                 {% endfor %}
-            {% else %}
+        {% else %}
                 <h1 class="initialized--none">No conversations initialized</h1>
-            {% endif %}
+        {% endif %}
         </div>
     </div>
 </div>

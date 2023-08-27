@@ -1,8 +1,5 @@
-
-{% block profile_tab %}
-	
-<a href= www.example.com>
-        <div class="profile__tab">
+{% block chat_profile_tab %}
+        <div class="profile__tab" onclick="window.location='{{url('app_chat_send_profile', {'id' : conversation.id})}}';">
             <a href="{{url('app_profile_show', {'id' : id})}}"><img src="{{ asset('/images/zuck_image.png') }}" alt=""></a>
             <ul>
                 {% if firstName is defined %}
@@ -20,5 +17,4 @@
                 {% endif %}
             </ul>
         </div>
-</a>
 {% endblock %}

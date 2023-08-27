@@ -94,7 +94,7 @@ class ChatController extends AbstractController
             $message = new Message();
             $message->setContent($sendForm->get('content')->getData());
             $message->addUserId($user);
-            $message->addConversationId($userConversations[0]);
+            $message->addConversationId($userConversations[$conversationId-1]);
             
             $this->entityManager->persist($message);
             $this->entityManager->flush();
@@ -109,14 +109,32 @@ class ChatController extends AbstractController
             } 
         }
 
-        $sendForm = $this->createForm(SendMessageForm::class);
-        $sendForm->handleRequest($request);
-        $user = $this->getUser();
         return $this->render('pages/chat_page_show.html.twig', [
             'user' => $user,
             'sendForm' => $sendForm,
             'conversations' => $userConversations,
             'currentConversation' => $currentConversation
         ]);
+    }
+
+    #[Route('/chat/getMessages/{$id}', name: 'app_chat_fetch_message')]
+    public function fetchMessages(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $conversationId = $request->get('id');
+    $currentConversation = $entityManager->getRepository(Conversation::class)->find($conversationId);
+
+    $messages = $currentConversation->getMessages();
+    $messagesData = [];
+    foreach ($messages as $message) {
+        $messagesData[] = [
+            'id' => $message->getId(),
+            'content' => $message->getContent(),
+        ];
+    }
+    $responseData = [
+        'messages' => $messagesData,
+    ];
+
+    return $this->json($responseData);
     }
 }
