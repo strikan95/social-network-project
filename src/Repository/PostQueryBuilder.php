@@ -30,6 +30,7 @@ class PostQueryBuilder
         return $this;
     }
 
+
     public function following(int $userId): self
     {
         $this->qb
@@ -41,6 +42,14 @@ class PostQueryBuilder
             ->where('f.id = :currentUserId')
             ->setParameter('currentUserId', $userId);*/
 
+        return $this;
+    }
+
+    public function public(): self
+    {
+        $this->qb
+            ->where('p.access = :access')
+            ->setParameter('access', 'Public');
         return $this;
     }
 

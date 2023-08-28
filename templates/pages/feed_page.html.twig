@@ -48,6 +48,9 @@
             {{ block("post_card", "elements/post_window.html.twig") }}
         {% endfor %}
 
+        {% for post in publicPosts %}
+            {{ block("post_card", "elements/post_window.html.twig") }}
+        {% endfor %}
 
     </div>
 

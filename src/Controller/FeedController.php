@@ -47,14 +47,26 @@ class FeedController extends AbstractController
             ->following($this->getUser()->id())
             ->getQueryBuilder();
 
+        $pqbPublic = $this->postRepository->withBuilder()
+                    ->latest()
+                    ->public()
+                    ->getQueryBuilder();
+
         $pagination = $paginator->paginate(
             $pqb,
             $request->query->getInt('page', 1),
             10
         );
 
+        $paginationPublic = $paginator->paginate(
+            $pqbPublic,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('pages/feed_page.html.twig', [
             'posts' => $pagination->getItems(),
+            'publicPosts' => $paginationPublic->getItems(),
             'form' => $form,
             'searchForm' => $searchForm,
             'user' => $this->getUser(),
