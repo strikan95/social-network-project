@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Conversation;
 use App\Entity\Message;
+use App\Entity\User;
 use App\Form\SendMessageForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -78,14 +79,11 @@ class ChatController extends AbstractController
     {
         $conversationId = $request->get('id');
         $currentConversation = $entityManager->getRepository(Conversation::class)->find($conversationId);
+        
         $user = $this->getUser();
-        $conversationRepo = $entityManager->getRepository(Conversation::class); 
-        $userConversations = $conversationRepo->createQueryBuilder('conversation')
-        ->where("conversation.first_user = :user")
-        ->orWhere("conversation.second_user = :user")
-        ->setParameter("user", $user)
-        ->getQuery()
-        ->getResult();
+
+        $userConversations = $this->getUser()->conversations();
+
 
         $sendForm = $this->createForm(SendMessageForm::class);
         $sendForm->handleRequest($request);
@@ -101,14 +99,6 @@ class ChatController extends AbstractController
             return new JsonResponse(['success' => true]);
         }
 
-        for($i = 0; $i<count($userConversations); $i++){
-            if($userConversations[$i]->getFirstUser()!=$user){
-                $swap = $userConversations[$i]->getFirstUser();
-                $userConversations[$i]->setFirstUser($userConversations[$i]->getSecondUser());
-                $userConversations[$i]->setSecondUser($swap);
-            } 
-        }
-
         return $this->render('pages/chat_page_show.html.twig', [
             'user' => $user,
             'sendForm' => $sendForm,
@@ -117,10 +107,25 @@ class ChatController extends AbstractController
         ]);
     }
 
+    #[Route('/chat/makeConversation/{$id}', name: 'app_chat_make_conversation')]
+    public function makeConversation(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $userId = $request->get('id');
+        $user = $entityManager->getRepository(User::class)->find($userId);
+        $newConversation = new Conversation();
+        $newConversation->addUser($user)
+        ->addUser($this->getUser());
+        $this->entityManager->persist($newConversation);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_chat_send_profile', array('id' => $userId));
+        
+    }
+
     #[Route('/chat/getMessages/{$id}', name: 'app_chat_fetch_message')]
     public function fetchMessages(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $conversationId = $request->get('id');
+    $conversationId = $request->get('id');
     $currentConversation = $entityManager->getRepository(Conversation::class)->find($conversationId);
 
     $messages = $currentConversation->getMessages();

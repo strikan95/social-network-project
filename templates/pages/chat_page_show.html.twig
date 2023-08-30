@@ -37,7 +37,7 @@
         <div class="chat__sidebar">
             <div class="chat__tab">
             {% for conversation in conversations %}
-                {% include 'elements/chat_profile_tab.html.twig' with {'username': conversation.getSecondUser().username, 'lastName' : conversation.getSecondUser().lastName, 'id' : conversation.getSecondUser().id, 'firstName' : conversation.getSecondUser().firstName } %}
+                {% include 'elements/chat_profile_tab.html.twig' with {'username': conversation.getOtherUser(user.id())[0].username, 'lastName' : conversation.getOtherUser(user.id())[0].lastName, 'id' : conversation.getOtherUser(user.id())[0].id(), 'firstName' : conversation.getOtherUser(user.id())[0].firstName } %}
             {% endfor %}
             </div>
         </div>
@@ -64,7 +64,7 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
     const messageForm = document.querySelector(".window__input form");
     const messageContainer = document.querySelector(".window__messages");
     const conversationId = {{ currentConversation.getId() }};
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Error sending message:", error);
         });
     });
-});
+});*/
 </script>
 
 {% endblock %}

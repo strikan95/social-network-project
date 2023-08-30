@@ -39,6 +39,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column (nullable:true)]
     private array $roles = ['ROLE_USER']; // Default user role for all users
 
+    
+
     // ------------------------------------ Personal info ------------------------------------
     #[ORM\Column(length: 255)]
     private string $firstName;
@@ -53,6 +55,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // ------------------------------------ Relationships ------------------------------------
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, cascade: ['persist'])]
     private Collection $posts;
+
+    #[ManyToMany(targetEntity: Conversation::class, inversedBy: 'users')]
+    private Collection $conversations;
 
     #[ManyToMany(targetEntity: User::class, mappedBy: 'following', fetch: "EXTRA_LAZY")]
     private Collection $followers;
@@ -170,6 +175,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function posts(): Collection
     {
         return $this->posts;
+    }
+
+    public function conversations(): Collection
+    {
+        return $this->conversations;
     }
 
     public function followers()

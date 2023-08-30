@@ -18,15 +18,13 @@ class Conversation
     #[ORM\ManyToMany(targetEntity: Message::class, mappedBy: 'conversation_id')]
     private Collection $messages;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $first_user = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $second_user = null;
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'conversations')]
+    private Collection $users;
 
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,27 +59,22 @@ class Conversation
         return $this;
     }
 
-    public function getFirstUser(): ?User
+    public function users(): Collection
     {
-        return $this->first_user;
+        return $this->users;
     }
 
-    public function setFirstUser(?User $first_user): static
-    {
-        $this->first_user = $first_user;
-
+    public function addUser(User $user) : self{
+        $this->users->add($user);
+        $user->conversations()->add($this);
         return $this;
     }
-
-    public function getSecondUser(): ?User
-    {
-        return $this->second_user;
-    }
-
-    public function setSecondUser(?User $second_user): static
-    {
-        $this->second_user = $second_user;
-
-        return $this;
+    
+    public function getOtherUser(User $currentUser) : User{
+        if(!empty($this->users())){
+            foreach($user as $this->users()){
+                if($currentUser != $user) return $user;
+            }
+        }
     }
 }
