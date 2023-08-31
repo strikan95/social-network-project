@@ -83,7 +83,13 @@ class ChatController extends AbstractController
         $user = $this->getUser();
 
         $userConversations = $this->getUser()->conversations();
-
+        
+        $peopleFromConversations = array();
+        foreach($userConversations as $conversation){
+            foreach($conversation->users() as $otherUser){
+                if($otherUser!=$user) array_push($peopleFromConversations, $otherUser);
+            }
+        }
 
         $sendForm = $this->createForm(SendMessageForm::class);
         $sendForm->handleRequest($request);
@@ -100,10 +106,11 @@ class ChatController extends AbstractController
         }
 
         return $this->render('pages/chat_page_show.html.twig', [
+            'otherUsers' => $peopleFromConversations,
             'user' => $user,
             'sendForm' => $sendForm,
             'conversations' => $userConversations,
-            'currentConversation' => $currentConversation
+            'conversation' => $currentConversation
         ]);
     }
 

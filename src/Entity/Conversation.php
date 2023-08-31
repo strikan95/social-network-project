@@ -69,12 +69,5 @@ class Conversation
         $user->conversations()->add($this);
         return $this;
     }
-    
-    public function getOtherUser(User $currentUser) : User{
-        if(!empty($this->users())){
-            foreach($user as $this->users()){
-                if($currentUser != $user) return $user;
-            }
-        }
-    }
+
 }

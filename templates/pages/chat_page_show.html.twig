@@ -36,14 +36,14 @@
        {% if conversations|length > 0 %}
         <div class="chat__sidebar">
             <div class="chat__tab">
-            {% for conversation in conversations %}
-                {% include 'elements/chat_profile_tab.html.twig' with {'username': conversation.getOtherUser(user.id())[0].username, 'lastName' : conversation.getOtherUser(user.id())[0].lastName, 'id' : conversation.getOtherUser(user.id())[0].id(), 'firstName' : conversation.getOtherUser(user.id())[0].firstName } %}
+            {% for otherUser in otherUsers %}
+                {% include 'elements/chat_profile_tab.html.twig' with {'username': otherUser.username, 'lastName' : otherUser.lastName, 'id' : otherUser.id, 'firstName' : otherUser.firstName} %}
             {% endfor %}
             </div>
         </div>
         <div class="chat__window">
             <div class="window__messages">
-                {% for message in currentConversation.getMessages() %}
+                {% for message in conversation.getMessages() %}
                     {% if message.getUserId()[0].id == user.id %}
                         <div class="message--current">
                             <span>{{message.getContent()}}</span>
@@ -64,10 +64,10 @@
 </div>
 
 <script>
-/*document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     const messageForm = document.querySelector(".window__input form");
     const messageContainer = document.querySelector(".window__messages");
-    const conversationId = {{ currentConversation.getId() }};
+    const conversationId = {{ conversation.getId() }};
     
     messageForm.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -79,7 +79,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                fetch(`{{ url('app_chat_fetch_message', {'id': currentConversation.id}) }}`)
+                fetch(`{{ url('app_chat_fetch_message', {'id': conversation.id}) }}`)
                     .then(response => response.json())
                     .then(data => {
                         const messages = data.messages;
@@ -98,7 +98,7 @@
             console.error("Error sending message:", error);
         });
     });
-});*/
+})
 </script>
 
 {% endblock %}
