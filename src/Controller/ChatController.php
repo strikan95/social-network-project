@@ -98,7 +98,7 @@ class ChatController extends AbstractController
             $message = new Message();
             $message->setContent($sendForm->get('content')->getData());
             $message->addUserId($user);
-            $message->addConversationId($userConversations[$conversationId-1]);
+            $message->addConversationId($currentConversation);
             
             $this->entityManager->persist($message);
             $this->entityManager->flush();
@@ -110,7 +110,7 @@ class ChatController extends AbstractController
             'user' => $user,
             'sendForm' => $sendForm,
             'conversations' => $userConversations,
-            'conversation' => $currentConversation
+            'currentConversation' => $currentConversation
         ]);
     }
 

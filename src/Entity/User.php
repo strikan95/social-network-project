@@ -244,4 +244,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getSharedConversation(User $user): Conversation
+    {
+        $currentUserConv = $this->conversations();
+        foreach($currentUserConv as $conversation){
+            $conversationUsers = $conversation->users();
+            foreach($conversationUsers as $convUser){
+                if($user==$convUser) return $conversation;
+            }
+        }
+        return $this->messages;
+    }
 }

@@ -37,13 +37,13 @@
         <div class="chat__sidebar">
             <div class="chat__tab">
             {% for otherUser in otherUsers %}
-                {% include 'elements/chat_profile_tab.html.twig' with {'username': otherUser.username, 'lastName' : otherUser.lastName, 'id' : otherUser.id, 'firstName' : otherUser.firstName} %}
+                {% include 'elements/chat_profile_tab.html.twig' with {'username': otherUser.username, 'lastName' : otherUser.lastName, 'id' : otherUser.id, 'firstName' : otherUser.firstName, 'conversation' : otherUser.getSharedConversation(user)} %}
             {% endfor %}
             </div>
         </div>
         <div class="chat__window">
             <div class="window__messages">
-                {% for message in conversation.getMessages() %}
+                {% for message in currentConversation.getMessages() %}
                     {% if message.getUserId()[0].id == user.id %}
                         <div class="message--current">
                             <span>{{message.getContent()}}</span>
@@ -67,7 +67,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const messageForm = document.querySelector(".window__input form");
     const messageContainer = document.querySelector(".window__messages");
-    const conversationId = {{ conversation.getId() }};
+    const conversationId = {{ currentConversation.getId() }};
     
     messageForm.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                fetch(`{{ url('app_chat_fetch_message', {'id': conversation.id}) }}`)
+                fetch(`{{ url('app_chat_fetch_message', {'id': currentConversation.id}) }}`)
                     .then(response => response.json())
                     .then(data => {
                         const messages = data.messages;
