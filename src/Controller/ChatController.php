@@ -24,39 +24,18 @@ class ChatController extends AbstractController
     {
         $user = $this->getUser();
         $conversationRepo = $entityManager->getRepository(Conversation::class); 
-        $userConversations = $conversationRepo->createQueryBuilder('conversation')
-        ->where("conversation.first_user = :user")
-        ->orWhere("conversation.second_user = :user")
-        ->setParameter("user", $user)
-        ->getQuery()
-        ->getResult();
+        $userConversations = $user->conversations();
 
-
-        $sendForm = $this->createForm(SendMessageForm::class);
-        $sendForm->handleRequest($request);
-
-        if ($sendForm->isSubmitted()) {
-            $message = new Message();
-            $message->setContent($sendForm->get('content')->getData());
-            $message->addUserId($user);
-            $message->addConversationId($userConversations[0]);
-            
-            $this->entityManager->persist($message);
-            $this->entityManager->flush();
-            return new JsonResponse(['success' => true]);
-        }
-
-        for($i = 0; $i<count($userConversations); $i++){
-            if($userConversations[$i]->getFirstUser()!=$user){
-                $swap = $userConversations[$i]->getFirstUser();
-                $userConversations[$i]->setFirstUser($userConversations[$i]->getSecondUser());
-                $userConversations[$i]->setSecondUser($swap);
-            } 
+        $peopleFromConversations = array();
+        foreach($userConversations as $conversation){
+            foreach($conversation->users() as $otherUser){
+                if($otherUser!=$user) array_push($peopleFromConversations, $otherUser);
+            }
         }
 
         return $this->render('pages/chat_page.html.twig', [
             'user' => $user,
-            'sendForm' => $sendForm,
+            'otherUsers' => $peopleFromConversations,
             'conversations' => $userConversations
         ]);
     }
@@ -141,6 +120,7 @@ class ChatController extends AbstractController
         $messagesData[] = [
             'id' => $message->getId(),
             'content' => $message->getContent(),
+            'user_id' => $message->getUserId()[0]->id()
         ];
     }
     $responseData = [

@@ -1,6 +1,6 @@
 
 {% block profile_tab %}
-        <div class="profile__tab">
+        <div class="profile__tab" onclick="window.location='{{url('app_profile_show', {'id' : id})}}';">
             <a href="{{url('app_profile_show', {'id' : id})}}"><img src="{{ asset('/images/zuck_image.png') }}" alt=""></a>
             <ul>
                 {% if firstName is defined %}

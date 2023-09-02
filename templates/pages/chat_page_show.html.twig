@@ -45,11 +45,11 @@
             <div class="window__messages">
                 {% for message in currentConversation.getMessages() %}
                     {% if message.getUserId()[0].id == user.id %}
-                        <div class="message--current">
+                        <div class="message--current" user_id="{{message.getUserId()[0].id}}">
                             <span>{{message.getContent()}}</span>
                         </div>
                     {% else %}
-                        <div class="message--other">
+                        <div class="message--other" user_id="{{message.getUserId()[0].id}}">
                             <span>{{message.getContent()}}</span>
                         </div>
                     {% endif %}
@@ -64,7 +64,7 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
     const messageForm = document.querySelector(".window__input form");
     const messageContainer = document.querySelector(".window__messages");
     const conversationId = {{ currentConversation.getId() }};
@@ -98,7 +98,68 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Error sending message:", error);
         });
     });
-})
+})*/
+
+document.addEventListener("DOMContentLoaded", function() {
+    const conversationId = {{ currentConversation.getId() }};
+    const messageForm = document.querySelector(".window__input form");
+    const messageContainer = document.querySelector(".window__messages");
+messageForm.addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+    console.log("Form submitted"); // Add a log statement for debugging
+    const formData = new FormData(messageForm);
+    fetch(messageForm.action, {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        console.log("Fetch response received");
+    })
+    .catch(error => {
+        console.error("Fetch error:", error);
+    });
+});
+    
+    function fetchAndDisplayMessages() {
+        fetch(`{{ url('app_chat_fetch_message', {'id': currentConversation.id}) }}`)
+            .then(response => response.json())
+            .then(data => {
+                const messages = data.messages;
+                const length = data.messages.length;
+                var currentUserMessageNumber = document.querySelectorAll(".message--current").length;
+                var otherUserMessageNumber = document.querySelectorAll(".message--other").length;
+                var startingPoint = currentUserMessageNumber + otherUserMessageNumber;
+                var mesCont = messages[0];
+
+                console.log(messages.length+"All messages length   |   Starting point "+startingPoint);
+                if(startingPoint != messages.length){
+                    for(let i = startingPoint; i<messages.length; i++){
+                        let messageElement = document.createElement("div");
+                        let messageContent = document.createElement("span");
+                        messageElement.setAttribute("user_id", messages[i].user_id);
+                        messageContent.textContent = messages[i].content;
+                        messageElement.appendChild(messageContent);
+                        if(messageElement.getAttribute("user_id")=={{user.id()}}) messageElement.classList.add("message--current");
+                        else messageElement.classList.add("message--other");
+                        messageContainer.appendChild(messageElement);
+                     }
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching messages:", error);
+            });
+    }
+    
+    fetchAndDisplayMessages(); // Fetch and display messages immediately
+    
+    // Fetch and display new messages every 5 seconds (adjust interval as needed)
+    const messageFetchInterval = setInterval(fetchAndDisplayMessages, 5000);
+    
+    // Stop fetching messages when the user navigates away from the page
+    window.addEventListener("beforeunload", function() {
+        clearInterval(messageFetchInterval);
+    });
+});
 </script>
 
 {% endblock %}

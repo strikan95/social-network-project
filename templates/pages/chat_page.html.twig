@@ -36,9 +36,9 @@
         <div class="chat__wrapper">
             <h1>Current conversations</h1>
         {% if conversations|length > 0 %}
-                {% for conversation in conversations %}
+                {% for otherUser in otherUsers %}
                     <div class="wrapper_wrapping_wrappers_the_ultimate_wrapper">
-                        {% include 'elements/chat_profile_tab.html.twig' with {'username': conversation.getSecondUser().username, 'lastName' : conversation.getSecondUser().lastName, 'id' : conversation.getSecondUser().id, 'firstName' : conversation.getSecondUser().firstName } %}   
+                        {% include 'elements/chat_profile_tab.html.twig' with {'username': otherUser.username, 'lastName' : otherUser.lastName, 'id' : otherUser.id, 'firstName' : otherUser.firstName, 'conversation' : otherUser.getSharedConversation(user)} %}
                     </div>
                 {% endfor %}
         {% else %}

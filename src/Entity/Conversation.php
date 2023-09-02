@@ -70,9 +70,4 @@ class Conversation
         return $this;
     }
 
-    /*public function getAllButCurrent(User $user) : Collection{
-        
-        return $this;
-    }*/
-
 }
