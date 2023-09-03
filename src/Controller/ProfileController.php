@@ -23,8 +23,19 @@ class ProfileController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function me(): Response
     {
+        $currentUser = $this->getUser();
+        $followers = $currentUser->followers();
+        $following = $currentUser->following();
+        $followerCount = count($followers);
+        $followingCount = count($following);
+        $posts = $currentUser->posts();
+
         return $this->render('pages/profile_page.html.twig', [
             'user' => $this->getUser(),
+            'followerCount' => $followerCount,
+            'followingCount' => $followingCount,
+            'posts' => $posts,
+            'time' =>  time()
         ]);
     }
 
@@ -36,10 +47,22 @@ class ProfileController extends AbstractController
 
         $isFollowing = $this->userRepository->isFollowing($this->getUser()->id(), $id);
         $user = $this->userRepository->find($id);
+
+        $followers = $user->followers();
+        $following = $user->following();
+        $followerCount = count($followers);
+        $followingCount = count($following);
+        $posts = $user->posts();
+
         return $this->render('pages/profile_page.html.twig', [
             'user' => $user,
             'isFollowing' => $isFollowing,
-            'show' => 'true'
+            'show' => 'true',
+            'followerCount' => $followerCount,
+            'followingCount' => $followingCount,
+            'id' => $id,
+            'posts' => $posts,
+            'time' =>  time()
         ]);
     }
 

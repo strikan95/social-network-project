@@ -3,31 +3,43 @@
 {% block profile %}
 <div class="page--profile">
     <div class="profile__banner">
-        {% if user.profile.backgroundImage is defined and user.profile.backgroundImage is not empty %}
+        {% if user.backgroundImage is defined and user.profile.backgroundImage is not empty %}
             <img src="{{ asset('/uploads/'~ user.profile.backgroundImage) }}" alt="">
         {% else %}
             <img src="{{ asset('/images/background_image.jpg') }}" alt="">
         {% endif %}
     </div>
     <div class="profile__info">
-        {% if user.profile.profileImage is defined and user.profile.profileImage is not empty %}
+        {% if user.profileImage is defined and user.profile.profileImage is not empty %}
             <img class="info__container--image" src="{{ asset('/uploads/'~ user.profile.profileImage) }}" alt="">
         {% else %}
             <img class="info__container--image" src="{{ asset('/images/zuck_image.png') }}" alt="">
         {% endif %}
         <div class="info__navigation">
+            {% if show is defined %}
+            <a href="{{url('app_chat_send_profile', {'id' : id})}}">
+                <img src="{{ asset('/images/mail_icon.png') }}"   alt="">
+            </a>
+            {% else %}
             <a href="/settings">
                 <img src="{{ asset('/images/gear_icon.png') }}"   alt="">
             </a>
+            {% endif %}
             <a href="/feed">
                 <img src="{{ asset('/images/feed_icon.png') }}"  alt="">
             </a>
             <a href="/people">
                 <img src="{{ asset('/images/team_icon.png') }}"  alt="">
             </a>
-            <a href="/messages">
+            <a href="/chat">
                 <img src="{{ asset('/images/comment_icon.png') }}"  alt="">
             </a>
+            {% if show is defined %}
+            {% else %}
+            <a href="/logout">
+                <img src="{{ asset('/images/close_icon.png') }}"  alt="logout">
+            </a>
+            {% endif %}
         </div>
         <h1>{{user.firstName}} {{user.lastName}}</h1>
         {% if show is defined %}
@@ -65,22 +77,31 @@
             </div>
         </div>
         <div class="info__container">   
-                <div class="info__followers">
+                {% if show is defined %}
+                <a href="/followers/show/{{id}}" class="info__following">
+                {% else %}
+                <a href="/followers" class="info__followers">
+                {% endif %}
                     <img src="{{ asset('/images/people_icon.png') }}" alt="">
-                    {% if user.followers is defined %}
-                        <span>Followers 37</span>
+                    {% if user.followers is defined and user.followers %}
+                        <span>Followers {{followerCount}}</span>
                     {% else %}
                         <span>Followers 0</span>
                     {% endif %}
-                </div>
-            <div class="info__following">
+                </a>
+      
+            {% if show is defined %}
+            <a href="/following/show/{{id}}" class="info__following">
+            {% else %}
+            <a href="/following" class="info__following">
+            {% endif %}
                 <img src="{{ asset('/images/heart_icon.png') }}" alt="">
-                {% if user.followers is defined %}
-                    <span>Following 117</span>
+                {% if user.followers is defined and user.followers %}
+                    <span>Following {{followingCount}}</span>
                 {% else %}
                     <span>Following 0</span>
                 {% endif %}
-            </div>
+            </a>
 
             {% if user.location is defined %}
             <div class="info__location">
@@ -95,10 +116,61 @@
                 <span>{{ user.date }}</span>
             </div>
             {% endif %}
-
         </div>
     </div>
+    <div class="profile__posts">
+        {% if posts|length > 0 %}
+            {% for post in posts | reverse %}
+                {{ block("post_card", "elements/post_window.html.twig") }}
+            {% endfor %}
+        {% else %}
+            <h1>User has no posts.</h1>
+        {% endif %}
+    </div>
 </div>
+
+<script>
+function createdTime(){
+    var createdAtElements = document.querySelectorAll("#published");
+    for(let i=0; i<createdAtElements.length; i++){
+        var time = {{time}}-createdAtElements[i].innerHTML
+        if(time<60){
+            if(time==1){
+                createdAtElements[i].innerHTML = "Posted " +time+ " second ago";
+            } else{
+                createdAtElements[i].innerHTML = "Posted " +time+ " seconds ago";
+            }
+        } else{
+            time=time/60;
+            time=time.toFixed(0);
+            if(time>=60){
+                time=(time/60).toFixed(0);
+                if(time>=24){
+                    time=(time/24).toFixed(0);
+                    if(time==1){
+                        createdAtElements[i].innerHTML= "Posted "+time+" day ago"
+                    } else{
+                        createdAtElements[i].innerHTML= "Posted "+time+" days ago"
+                    }
+                } else {
+                    if(time==1){
+                        createdAtElements[i].innerHTML= "Posted "+time+" hour ago"
+                    } else{
+                        createdAtElements[i].innerHTML= "Posted "+time+" hours ago"
+                    }
+                }
+            } else{
+                if(time==1){
+                    createdAtElements[i].innerHTML = "Posted " +time+ " minute ago";
+                } else{
+                    createdAtElements[i].innerHTML = "Posted " +time+ " minutes ago";
+                }
+            }
+        }
+    }
+}
+createdTime();
+</script>
 {% endblock %}
 
 

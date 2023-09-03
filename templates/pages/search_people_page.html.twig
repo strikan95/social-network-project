@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block search %}
+<div class="page--search">
+    <div class="section__list">
+        <div class="container__navigation">
+            <a href="/profile">
+                <img src="{{ asset('/images/user_icon.png') }}"   alt="">
+            </a>
+            <a href="/feed">
+                <img src="{{ asset('/images/feed_icon.png') }}"  alt="">
+            </a>
+            <a href="/people">
+                <img src="{{ asset('/images/team_icon.png') }}"  alt="">
+            </a>
+            <a href="/chat">
+                <img src="{{ asset('/images/comment_icon.png') }}"  alt="">
+            </a>
+        </div>
+        <h1>Search results</h1>
+        <h3>Results for '{{query}}'</h3>
+        {% for matchingUser in matchingUsers %}
+                   {% include 'elements/profile_tab.html.twig' with {'username': matchingUser.username, 'lastName' : matchingUser.lastName, 'id' : matchingUser.id, 'firstName' : matchingUser.firstName} %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+

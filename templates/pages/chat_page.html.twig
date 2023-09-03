@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block chat %}
+
+{% set username = user.username %}
+{% set firstName = user.firstName %}
+{% set lastName = user.lastName %}
+
+{% set url1 = asset('/images/user_icon.png') %}
+{% set url2 = asset('/images/gear_icon.png') %}
+{% set url3 = asset('/images/feed_icon.png')  %}
+{% set url4 = asset('/images/team_icon.png') %}
+{% set url5 = asset('/images/close_icon.png') %}
+
+{% set path1 = "/profile" %}
+{% set path2 = "/settings" %}
+{% set path3 = "/feed"  %}
+{% set path4 = "/people" %}
+{% set path5 = "/logout" %}
+
+
+<div class="page--chat">
+    <div class="section__profile">
+         {% include 'elements/profile_tab.html.twig' with {'username': username,
+                        'lastName' : lastName, 'id' : user.id, 'firstName' : firstName} %} 
+        <div class="profile__actions">
+            {% include "elements/sidebar_left.html.twig"  with {'url1': url1,
+            'url2':url2, 'url3':url3, 'url4':url4, 'text1':'Profile', 'text2':'Settings',
+            'text3':'Feed', 'text4':'Find people', 'text5':'Logout', 'path1':path1, 'path2':path2, 'path3':path3, 
+            'path4':path4, 'path5':path5} %}
+        </div>
+    </div>
+    <div class="section__chat">
+        <div class="chat__wrapper">
+            <h1>Current conversations</h1>
+        {% if conversations|length > 0 %}
+                {% for otherUser in otherUsers %}
+                    <div class="wrapper_wrapping_wrappers_the_ultimate_wrapper">
+                        {% include 'elements/chat_profile_tab.html.twig' with {'username': otherUser.username, 'lastName' : otherUser.lastName, 'id' : otherUser.id, 'firstName' : otherUser.firstName, 'conversation' : otherUser.getSharedConversation(user)} %}
+                    </div>
+                {% endfor %}
+        {% else %}
+                <h1 class="initialized--none">No conversations initialized</h1>
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

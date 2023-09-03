@@ -1,0 +1,51 @@
+.page--search{
+    width: 100%;
+    height: 100vh; 
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    background: linear-gradient(90deg, #0d1a83, #6b7fff);
+    background-size: 200% 200%;
+    animation: Animation 8s ease infinite;
+
+    .section__list{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        height: 70%;
+        padding-top: 2rem;
+        margin-top: 6rem;
+        margin-left: 4rem;
+        background-color: rgb(255, 255, 255);
+        border-radius: 1.25rem;
+        width: 30%;
+        box-shadow: 3px 6px 20px 0px rgb(255 255 255 / 27%), inset -11px -9px 9px 0px rgba(145, 192, 255, 0.6), inset -20px -14px 0px 0px rgb(255 255 255);
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        
+        .container__navigation{
+            padding-bottom: 0.5rem;
+            img{
+                height: 3rem;
+                padding-right: 0.5rem;
+            }
+        }
+        
+        h1{
+            padding-bottom: 0rem;
+        }
+        h3{
+            padding-bottom: 1rem;
+        }
+
+        .profile__tab{
+            cursor: pointer;
+            width: 50%;
+            border-left: 1px solid rgba(16, 37, 161, 0.171);
+            border-top: 1px solid rgba(16, 37, 161, 0.171);
+            margin-bottom: 1rem
+        }
+
+    }
+}

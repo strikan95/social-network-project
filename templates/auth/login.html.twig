@@ -5,17 +5,24 @@
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+    <div class="page--login">
+        <div class="section__login">
+            <h1>Login</h1>  
+            <form action="{{ path('app.login') }}" method="post">
+                <div>
+                    <label for="username">Email:</label>
+                    <input type="text" id="username" name="_username" value="{{ lastUsername }}">
 
-    <form action="{{ path('app.login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ lastUsername }}">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="_password">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-        <input type="hidden" name="_target_path" value="{{ path('app.feed.show') }}" />
-        <button type="submit">login</button>
-    </form>
+                    <input type="hidden" name="_target_path" value="{{ path('app.feed.show') }}" />
+                    <button type="submit">Login</button>
+                </div>
+                <a href="/register" class="change--redirect">Register instead</a>
+            </form>
+        </div>
+    </div>
 {% endblock %}

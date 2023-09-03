@@ -39,6 +39,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column (nullable:true)]
     private array $roles = ['ROLE_USER']; // Default user role for all users
 
+    
+
     // ------------------------------------ Personal info ------------------------------------
     #[ORM\Column(length: 255)]
     private string $firstName;
@@ -54,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, cascade: ['persist'])]
     private Collection $posts;
 
+    #[ManyToMany(targetEntity: Conversation::class, inversedBy: 'users')]
+    private Collection $conversations;
+
     #[ManyToMany(targetEntity: User::class, mappedBy: 'following', fetch: "EXTRA_LAZY")]
     private Collection $followers;
 
@@ -62,6 +67,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[InverseJoinColumn(name: 'follower_id', referencedColumnName: 'id')]
     #[ManyToMany(targetEntity: 'User', inversedBy: 'followers')]
     private Collection $following;
+
+    #[ORM\ManyToMany(targetEntity: Message::class, mappedBy: 'user_id')]
+    private Collection $messages;
 
     // ------------------------------------ DateTime ------------------------------------
 
@@ -93,6 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->following = new ArrayCollection();
         $this->followers = new ArrayCollection();
         return $this;
+        $this->messages = new ArrayCollection();
     }
 
     // -------------------------------- Factory -------------------------------- //
@@ -163,9 +172,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->profile;
     }
 
-    public function posts(): ArrayCollection
+    public function posts(): Collection
     {
         return $this->posts;
+    }
+
+    public function conversations(): Collection
+    {
+        return $this->conversations;
     }
 
     public function followers()
@@ -202,5 +216,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->addUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            $message->removeUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function getSharedConversation(User $user): Conversation
+    {
+        $currentUserConv = $this->conversations();
+        foreach($currentUserConv as $conversation){
+            $conversationUsers = $conversation->users();
+            foreach($conversationUsers as $convUser){
+                if($user==$convUser) return $conversation;
+            }
+        }
+        return $this->messages;
     }
 }

@@ -1,17 +1,17 @@
 .page--profile{
     width: 100%;
-    height: 100vh; 
+    min-height: 100vh;
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
     background: linear-gradient(90deg, #0d1a83, #6b7fff);
     background-size: 200% 200%;
     animation: Animation 8s ease infinite;
-
+    overflow-y: auto !important; 
     .profile__banner{
         width: 100%;
         height: 20rem;
-        background-color: yellow;
+        background-color: rgb(29, 29, 29);
 
         img{
             width: 100%;
@@ -119,7 +119,8 @@
             margin-bottom: 2rem;
             column-gap: 2.5rem;
 
-            div{
+            a{
+                cursor: pointer;
                 display: flex;
                 flex-flow: row;
                 align-items: center;
@@ -133,6 +134,27 @@
                     color: rgba(0, 0, 0, 0.59);
                 }
             }
+        }
+    }
+    
+    .profile__posts{
+        align-self: center;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        height: 6rem;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        margin-left: 4rem;
+        background-color: rgb(255, 255, 255);
+        border-radius: 1.25rem;
+        width: 30%;
+        box-shadow: 3px 6px 20px 0px rgb(255 255 255 / 27%), inset -11px -9px 9px 0px rgba(145, 192, 255, 0.6), inset -20px -14px 0px 0px rgb(255 255 255);
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        #published{
+            width: 4rem;
         }
     }
 }

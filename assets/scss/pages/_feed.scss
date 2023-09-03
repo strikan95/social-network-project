@@ -54,7 +54,7 @@
             }
         }
         
-        .profile__tab--time{
+        .profile__tab--search{
             display: flex;
             flex-flow: row wrap;
             justify-content: space-evenly;
@@ -69,6 +69,13 @@
             text-transform: uppercase;
             font-weight: 600;
             font-size: 1rem;
+            
+            input{
+                border: none;
+                outline: none;
+                border-bottom: 1px rgba(0, 0, 0, 0.23) solid;
+                margin-bottom: 1rem;
+            }
         }
     }
     
@@ -122,7 +129,7 @@
 
             form{
 
-                #post{
+                div{
                     
                     div:nth-child(3){
                         display: flex;
