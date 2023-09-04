@@ -3,7 +3,7 @@
 {% block profile %}
 <div class="page--profile">
     <div class="profile__banner">
-        {% if user.backgroundImage is defined and user.profile.backgroundImage is not empty %}
+        {% if user.profile.backgroundImage is defined and user.profile.backgroundImage is not empty %}
             <img src="{{ asset('/uploads/'~ user.profile.backgroundImage) }}" alt="">
         {% else %}
             <img src="{{ asset('/images/background_image.jpg') }}" alt="">
