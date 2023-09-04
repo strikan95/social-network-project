@@ -74,24 +74,24 @@ class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UpdateProfileRequest $dto */
             $dto = $form->getData();
-            if (($file = $dto->profileImage) !== null)
+            if (isset($dto->profileImage))
             {
                 $dto->setUploadedProfileImageUri(
-                    $fileUploader->upload($file)
+                    $fileUploader->upload($dto->profileImage)
                 );
             }
 
-            if (($file = $dto->backgroundImage) !== null)
+            if (isset($dto->backgroundImage))
             {
                 $dto->setUploadedBackgroundImageUri(
-                    $fileUploader->upload($file)
+                    $fileUploader->upload($dto->backgroundImage)
                 );
             }
 
 
             /** @var User $user */
             $user = $this->getUser();
-            $user->profile()->update($form->getData());
+            $user->profile()->update($dto);
 
             $this->userRepository->save($user, true);
         }
