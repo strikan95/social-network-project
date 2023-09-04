@@ -10,7 +10,7 @@
         {% endif %}
     </div>
     <div class="profile__info">
-        {% if user.profileImage is defined and user.profile.profileImage is not empty %}
+        {% if user.profile.profileImage is defined and user.profile.profileImage is not empty %}
             <img class="info__container--image" src="{{ asset('/uploads/'~ user.profile.profileImage) }}" alt="">
         {% else %}
             <img class="info__container--image" src="{{ asset('/images/zuck_image.png') }}" alt="">
