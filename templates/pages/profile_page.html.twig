@@ -17,12 +17,15 @@
         {% endif %}
         <div class="info__navigation">
             {% if show is defined %}
-            <a href="{{url('app_chat_send_profile', {'id' : id})}}">
+            <a href="{{url('app_chat_make_conversation', {'id' : id})}}">
                 <img src="{{ asset('/images/mail_icon.png') }}"   alt="">
             </a>
             {% else %}
             <a href="/settings">
                 <img src="{{ asset('/images/gear_icon.png') }}"   alt="">
+            </a>
+            <a href="/chat">
+                <img src="{{ asset('/images/comment_icon.png') }}"  alt="">
             </a>
             {% endif %}
             <a href="/feed">
@@ -30,9 +33,6 @@
             </a>
             <a href="/people">
                 <img src="{{ asset('/images/team_icon.png') }}"  alt="">
-            </a>
-            <a href="/chat">
-                <img src="{{ asset('/images/comment_icon.png') }}"  alt="">
             </a>
             {% if show is defined %}
             {% else %}

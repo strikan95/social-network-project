@@ -101,10 +101,12 @@ class ChatController extends AbstractController
         $newConversation = new Conversation();
         $newConversation->addUser($user)
         ->addUser($this->getUser());
+
         $this->entityManager->persist($newConversation);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('app_chat_send_profile', array('id' => $userId));
+        $conversationId = $newConversation->getId();
+        return $this->redirectToRoute('app_chat_send_profile', ['id' => $conversationId]);
         
     }
 
